@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm ngân hàng - Vuxhon</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .input-with-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .input-with-logo input {
+            flex: 1;
+            width: calc(100% - 50px); /* 40px for logo + 10px for gap */
+        }
+
+        .selected-bank-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 4px;
+            display: none;
+            flex-shrink: 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #3a5bef;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .qr-code {
+            max-width: 300px;
+            width: 100%;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        .bank-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+            gap: 1rem;
+        }
+
+        .bank-info img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .bank-details {
+            width: 100%;
+            line-height: 1.8;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-item {
+            padding: 0.8rem;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .bank-code {
+            font-size: 0.8em;
+            color: var(--secondary-color);
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Quay lại trang chủ
+            </a>
+            <div class="logo">
+                <h1>Tìm kiếm ngân hàng</h1>
+                <p>Tìm kiếm thông tin ngân hàng và mã QR thanh toán</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <div class="form-group">
+                        <label for="bankName">Tên ngân hàng</label>
+                        <div class="input-with-logo">
+                            <input type="text" id="bankName" placeholder="Nhập tên ngân hàng hoặc mã ngân hàng" required>
+                            <img id="selectedBankLogo" class="selected-bank-logo" alt="Logo ngân hàng">
+                        </div>
+                        <div class="suggestions" id="bankSuggestions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountNumber">Số tài khoản</label>
+                        <input type="text" id="accountNumber" placeholder="Nhập số tài khoản" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Số tiền</label>
+                        <input type="number" id="amount" placeholder="Nhập số tiền" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Nội dung chuyển khoản</label>
+                        <input type="text" id="note" placeholder="Nhập nội dung chuyển khoản">
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </form>
+
+                <div class="result-container" id="resultContainer">
+                    <div class="result-card">
+                        <h2>Thông tin ngân hàng</h2>
+                        <p id="bankInfo"></p>
+                        <img id="qrCode" class="qr-code" alt="QR Code">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Vuxhon. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let banks = [];
+        let selectedBank = null;
+
+        // Load banks data
+        async function loadBanks() {
+            try {
+                const response = await fetch('../data/banks.json');
+                const data = await response.json();
+                if (data.code === "00") {
+                    banks = data.data;
+                    console.log('Banks loaded successfully:', banks.length);
+                } else {
+                    console.error('Error loading banks:', data.desc);
+                }
+            } catch (error) {
+                console.error('Error loading banks:', error);
+            }
+        }
+
+        // Show suggestions
+        function showSuggestions(input) {
+            const searchTerm = input.value.toLowerCase();
+            const suggestionsDiv = document.getElementById('bankSuggestions');
+            
+            if (searchTerm.length < 2) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            const filteredBanks = banks.filter(bank => 
+                bank.name.toLowerCase().includes(searchTerm) || 
+                bank.code.toLowerCase().includes(searchTerm) ||
+                bank.shortName.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredBanks.length > 0) {
+                suggestionsDiv.innerHTML = filteredBanks.map(bank => `
+                    <div class="suggestion-item" 
+                        data-name="${bank.name}" 
+                        data-code="${bank.code}"
+                        data-bin="${bank.bin}"
+                        data-logo="${bank.logo}"
+                        data-swift="${bank.swift_code}">
+                        <img src="${bank.logo}" alt="${bank.name}">
+                        <div>
+                            <div>${bank.name}</div>
+                            <span class="bank-code">${bank.code}</span>
+                        </div>
+                    </div>
+                `).join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        }
+
+        // Handle suggestion click
+        function handleSuggestionClick(event) {
+            const suggestion = event.target.closest('.suggestion-item');
+            if (suggestion) {
+                const bankName = suggestion.getAttribute('data-name');
+                const bankCode = suggestion.getAttribute('data-code');
+                const bankBin = suggestion.getAttribute('data-bin');
+                const bankLogo = suggestion.getAttribute('data-logo');
+                const bankSwift = suggestion.getAttribute('data-swift');
+                
+                document.getElementById('bankName').value = bankName;
+                document.getElementById('selectedBankLogo').src = bankLogo;
+                document.getElementById('selectedBankLogo').style.display = 'block';
+                
+                selectedBank = {
+                    name: bankName,
+                    code: bankCode,
+                    bin: bankBin,
+                    logo: bankLogo,
+                    swift: bankSwift
+                };
+                document.getElementById('bankSuggestions').style.display = 'none';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadBanks();
+            
+            const bankInput = document.getElementById('bankName');
+            bankInput.addEventListener('input', () => showSuggestions(bankInput));
+            document.getElementById('bankSuggestions').addEventListener('click', handleSuggestionClick);
+            
+            // Close suggestions when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.form-group')) {
+                    document.getElementById('bankSuggestions').style.display = 'none';
+                }
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const accountNumber = document.getElementById('accountNumber').value;
+            const amount = document.getElementById('amount').value;
+            const note = document.getElementById('note').value;
+
+            if (!selectedBank) {
+                alert('Vui lòng chọn ngân hàng từ danh sách gợi ý');
+                return;
+            }
+
+            document.getElementById('bankInfo').innerHTML = `
+                <div class="bank-info">
+                    <img src="${selectedBank.logo}" alt="${selectedBank.name}">
+                    <div class="bank-details">
+                        <strong>Ngân hàng:</strong> ${selectedBank.name}<br>
+                        <strong>Số tài khoản:</strong> ${accountNumber}<br>
+                        <strong>Số tiền:</strong> ${new Intl.NumberFormat('vi-VN').format(amount)} VND<br>
+                        ${note ? `<strong>Nội dung:</strong> ${note}` : ''}
+                    </div>
+                </div>
+            `;
+            
+            const qrCodeUrl = `https://img.vietqr.io/image/${selectedBank.bin}-${accountNumber}-print.png?amount=${amount}&addInfo=${encodeURIComponent(note)}`;
+            document.getElementById('qrCode').src = qrCodeUrl;
+            
+            document.getElementById('resultContainer').style.display = 'block';
+        });
+    </script>
+</body>
+</html> 
