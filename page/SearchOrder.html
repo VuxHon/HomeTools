@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm đơn hàng - Vuxhon</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #3a5bef;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .search-section {
+            display: none;
+        }
+
+        .search-section.active {
+            display: block;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .result-table th,
+        .result-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .result-table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .result-table tr:hover {
+            background-color: #f5f7ff;
+        }
+
+        .no-results {
+            color: #888;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .date-time {
+            white-space: nowrap;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            color: var(--primary-color);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Quay lại trang chủ
+            </a>
+            <div class="logo">
+                <h1>Tìm kiếm đơn hàng</h1>
+                <p>Tra cứu thông tin đơn thêu và đơn đã quét</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="embroider">Đơn thêu</div>
+                    <div class="tab" data-tab="scanned">Đơn đã quét</div>
+                </div>
+
+                <!-- Đơn thêu -->
+                <div class="search-section active" id="embroiderSection">
+                    <form class="search-form" id="embroiderForm">
+                        <div class="form-group">
+                            <label for="embroiderOrderId">Mã đơn hàng</label>
+                            <input type="text" id="embroiderOrderId" placeholder="Nhập mã đơn hàng thêu" required>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Đơn đã quét -->
+                <div class="search-section" id="scannedSection">
+                    <form class="search-form" id="scannedForm">
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="searchByOrderId" name="searchType" value="order_id" checked>
+                                <label for="searchByOrderId">Tìm theo mã đơn hàng</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="searchByTracking" name="searchType" value="tracking_number">
+                                <label for="searchByTracking">Tìm theo mã vận đơn</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="scannedSearchId">Mã tìm kiếm</label>
+                            <input type="text" id="scannedSearchId" placeholder="Nhập mã đơn hàng hoặc mã vận đơn" required>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </form>
+                </div>
+
+                <div class="loading" id="loadingIndicator">
+                    <i class="fas fa-spinner fa-2x"></i>
+                    <p>Đang tìm kiếm...</p>
+                </div>
+
+                <!-- Kết quả tìm kiếm Đơn thêu -->
+                <div class="result-container" id="embroiderResultContainer">
+                    <div class="result-card">
+                        <h2>Kết quả tìm kiếm đơn thêu</h2>
+                        <div id="embroiderResults"></div>
+                    </div>
+                </div>
+
+                <!-- Kết quả tìm kiếm Đơn đã quét -->
+                <div class="result-container" id="scannedResultContainer">
+                    <div class="result-card">
+                        <h2>Kết quả tìm kiếm đơn đã quét</h2>
+                        <div id="scannedResults"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Vuxhon. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Chuyển đổi tab
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Ẩn tất cả các kết quả khi chuyển tab
+                document.querySelectorAll('.result-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                // Đặt lại active tab và section
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.search-section').forEach(s => s.classList.remove('active'));
+                
+                // Hiển thị tab và section được chọn
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId + 'Section').classList.add('active');
+            });
+        });
+
+        // Xử lý form tìm kiếm đơn thêu
+        document.getElementById('embroiderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const orderId = document.getElementById('embroiderOrderId').value.trim();
+            if (!orderId) return;
+            
+            // Hiển thị loading
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('embroiderResultContainer').style.display = 'none';
+            
+            try {
+                const response = await fetch('https://n8n.nhtan.app/webhook/843ebbdf-96ce-4eae-894d-2fa0e06a1a3b', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        dataset: 'Order_id_embroider.Order_id_embroider',
+                        colum: 'Order_id',
+                        id_query: orderId
+                    })
+                });
+                
+                let data = await response.json();
+                console.log('Dữ liệu đơn thêu từ webhook:', data);
+                
+                // Nếu dữ liệu là object đơn, chuyển thành mảng
+                if (data && !Array.isArray(data) && typeof data === 'object' && data.Order_id) {
+                    console.log('Chuyển đối tượng đơn thành mảng:', data);
+                    data = [data];
+                }
+                
+                // Ẩn loading
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                // Hiển thị kết quả
+                const resultsContainer = document.getElementById('embroiderResults');
+                
+                if (data && data.length > 0) {
+                    let html = '<table class="result-table">';
+                    html += '<thead><tr><th>Mã đơn hàng</th></tr></thead>';
+                    html += '<tbody>';
+                    
+                    data.forEach(item => {
+                        html += `<tr><td>${item.Order_id}</td></tr>`;
+                    });
+                    
+                    html += '</tbody></table>';
+                    resultsContainer.innerHTML = html;
+                } else {
+                    resultsContainer.innerHTML = '<div class="no-results">Không tìm thấy kết quả nào</div>';
+                }
+                
+                document.getElementById('embroiderResultContainer').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('embroiderResults').innerHTML = '<div class="no-results">Đã xảy ra lỗi khi tìm kiếm. Vui lòng thử lại sau.</div>';
+                document.getElementById('embroiderResultContainer').style.display = 'block';
+            }
+        });
+
+        // Xử lý form tìm kiếm đơn đã quét
+        document.getElementById('scannedForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const searchId = document.getElementById('scannedSearchId').value.trim();
+            if (!searchId) return;
+            
+            const searchType = document.querySelector('input[name="searchType"]:checked').value;
+            
+            // Hiển thị loading
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('scannedResultContainer').style.display = 'none';
+            
+            try {
+                const response = await fetch('https://n8n.nhtan.app/webhook/843ebbdf-96ce-4eae-894d-2fa0e06a1a3b', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        dataset: 'Scan_Tracking_Order.Scanned_Order',
+                        colum: searchType,
+                        id_query: searchId
+                    })
+                });
+                
+                let data = await response.json();
+                console.log('Dữ liệu gốc từ webhook:', data);
+                
+                // Nếu dữ liệu là object đơn, chuyển thành mảng
+                if (data && !Array.isArray(data) && typeof data === 'object' && data.order_id) {
+                    console.log('Chuyển đối tượng đơn thành mảng:', data);
+                    data = [data];
+                }
+                
+                // Đảm bảo data là mảng
+                if (data && typeof data === 'string') {
+                    try {
+                        data = JSON.parse(data);
+                        console.log('Đã parse dữ liệu từ chuỗi:', data);
+                    } catch (e) {
+                        console.error('Lỗi khi parse dữ liệu:', e);
+                    }
+                }
+                
+                // Ẩn loading
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                // Hiển thị kết quả
+                const resultsContainer = document.getElementById('scannedResults');
+                
+                if (data && Array.isArray(data) && data.length > 0) {
+                    console.log('Đang xử lý', data.length, 'kết quả');
+                    
+                    let html = '<table class="result-table">';
+                    html += '<thead><tr><th>Mã đơn hàng</th><th>Mã vận đơn</th><th>Shop ID</th><th>Đơn vị vận chuyển</th><th>Thời gian quét</th><th>Thời gian gửi</th></tr></thead>';
+                    html += '<tbody>';
+                    
+                    data.forEach((item, index) => {
+                        console.log(`Xử lý dòng ${index}:`, item);
+                        try {
+                            // Xử lý trực tiếp định dạng ISO 8601
+                            const scanTimeObj = new Date(item.scan_time);
+                            const shipTimeObj = new Date(item.ship_time);
+                            
+                            const scanTime = scanTimeObj.toLocaleString('vi-VN');
+                            const shipTime = shipTimeObj.toLocaleString('vi-VN');
+                            
+                            html += `<tr>
+                                <td>${item.order_id || '—'}</td>
+                                <td>${item.tracking_number || '—'}</td>
+                                <td>${item.shop_id || '—'}</td>
+                                <td>${item.shipment || '—'}</td>
+                                <td class="date-time">${scanTime}</td>
+                                <td class="date-time">${shipTime}</td>
+                            </tr>`;
+                        } catch (err) {
+                            console.error('Lỗi khi xử lý dòng dữ liệu:', err, item);
+                            html += `<tr><td colspan="6">Lỗi hiển thị dữ liệu</td></tr>`;
+                        }
+                    });
+                    
+                    html += '</tbody></table>';
+                    resultsContainer.innerHTML = html;
+                    document.getElementById('scannedResultContainer').style.display = 'block';
+                } else {
+                    console.log('Không có dữ liệu hoặc dữ liệu rỗng:', data);
+                    resultsContainer.innerHTML = '<div class="no-results">Không tìm thấy kết quả nào</div>';
+                    document.getElementById('scannedResultContainer').style.display = 'block';
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('scannedResults').innerHTML = '<div class="no-results">Đã xảy ra lỗi khi tìm kiếm. Vui lòng thử lại sau.</div>';
+                document.getElementById('scannedResultContainer').style.display = 'block';
+            }
+        });
+        
+        // Cập nhật placeholder khi đổi loại tìm kiếm
+        document.querySelectorAll('input[name="searchType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const input = document.getElementById('scannedSearchId');
+                if (this.value === 'order_id') {
+                    input.placeholder = 'Nhập mã đơn hàng';
+                } else {
+                    input.placeholder = 'Nhập mã vận đơn';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
