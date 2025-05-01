@@ -44,9 +44,14 @@
                     <div class="input-group">
                         <label for="displayType">Hiển thị:</label>
                         <select id="displayType" class="select2">
-                            <option value="chart">Biểu đồ</option>
                             <option value="table">Bảng</option>
+                            <option value="chart">Biểu đồ</option>
                         </select>
+                    </div>
+                    <div class="input-group warning-filter">
+                        <label for="showWarning">
+                            <input type="checkbox" id="showWarning"> Chỉ hiện mục cần nhập hàng
+                        </label>
                     </div>
                 </div>
 
@@ -62,6 +67,8 @@
                                     <th>Màu sắc</th>
                                     <th>Kích thước</th>
                                     <th>Số lượng tồn</th>
+                                    <th>Mức cảnh báo</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody id="inventoryTableBody">
