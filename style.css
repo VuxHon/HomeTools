@@ -323,4 +323,128 @@ td input {
         width: 95%;
         padding: 1rem;
     }
+}
+
+/* Inventory styles */
+.inventory-container {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.filter-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-section .input-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Select2 styles */
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-height: 38px;
+    padding: 0.5rem;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: white;
+    margin-right: 0.5rem;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background: none;
+    color: #ff6b6b;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    margin-top: 0.5rem;
+    padding: 0.2rem;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--primary-color);
+}
+
+.select2-dropdown {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.chart-container {
+    margin: 2rem 0;
+    height: 400px;
+    position: relative;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#inventoryTable th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+#inventoryTable td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+#inventoryTable tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .filter-section {
+        flex-direction: column;
+    }
+    
+    .filter-section .input-group {
+        width: 100%;
+    }
+    
+    #inventoryTable th,
+    #inventoryTable td {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
 } 

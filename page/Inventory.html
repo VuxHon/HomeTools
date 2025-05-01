@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm tra tồn kho - Vuxhon</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Kiểm tra tồn kho</h1>
+                <p>Xem thông tin tồn kho các mặt hàng</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="inventory-container">
+                <div class="filter-section">
+                    <div class="input-group">
+                        <label for="productName">Tên sản phẩm:</label>
+                        <select id="productName" class="select2">
+                            <option value="">Chọn sản phẩm</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="productColor">Màu sắc:</label>
+                        <select id="productColor" class="select2" multiple>
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="productSize">Kích thước:</label>
+                        <select id="productSize" class="select2" multiple>
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="displayType">Hiển thị:</label>
+                        <select id="displayType" class="select2">
+                            <option value="chart">Biểu đồ</option>
+                            <option value="table">Bảng</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="display-section">
+                    <div id="chartContainer" class="chart-container">
+                        <canvas id="inventoryChart"></canvas>
+                    </div>
+                    <div id="tableContainer" class="table-container" style="display: none;">
+                        <table id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng tồn</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <!-- Dữ liệu sẽ được thêm vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Vuxhon. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../script/Inventory.js"></script>
+</body>
+</html> 

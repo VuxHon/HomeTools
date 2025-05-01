@@ -1,0 +1,793 @@
+[
+  {
+    "message": "success",
+    "data": [
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Be",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Be",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Be",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Trắng",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Trắng",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Trắng",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BABYTEE",
+        "product_color": "Đen",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Be",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Be",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Be",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Trắng",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Trắng",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Trắng",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "BOXY",
+        "product_color": "Đen",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Kem",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Kem",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Kem",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xanh rêu",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xanh rêu",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xanh rêu",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xám tiêu",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xám tiêu",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Xám tiêu",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE LIỀN",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE ZIP",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE ZIP",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "HOODIE ZIP",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Be",
+        "product_size": "XXL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Trắng",
+        "product_size": "XXL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "POLO",
+        "product_color": "Đen",
+        "product_size": "XXL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Be",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Be",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Be",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám tiêu",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám tiêu",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám tiêu",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám đậm",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám đậm",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Xám đậm",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Xám tiêu",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Xám tiêu",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Xám tiêu",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "SWEATER HALF ZIP",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Hồng",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Trắng",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Vàng",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Xanh",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đen",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "100",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "110",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "120",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "130",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "140",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "150",
+        "inventory": "0"
+      },
+      {
+        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_color": "Đỏ",
+        "product_size": "160",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Be",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Be",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Be",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Be",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Be",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Nâu",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Nâu",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Nâu",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Nâu",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Nâu",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Trắng",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Trắng",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Trắng",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Trắng",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Trắng",
+        "product_size": "XS",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Đen",
+        "product_size": "L",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Đen",
+        "product_size": "M",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Đen",
+        "product_size": "S",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Đen",
+        "product_size": "XL",
+        "inventory": "0"
+      },
+      {
+        "product_name": "Áo thun oversize",
+        "product_color": "Đen",
+        "product_size": "XS",
+        "inventory": "0"
+      }
+    ]
+  }
+]
