@@ -3,790 +3,921 @@
     "message": "success",
     "data": [
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Be",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Be",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Be",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Trắng",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Trắng",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Trắng",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "BABYTEE",
+        "product_name": "BABYTEE - BBT",
         "product_color": "Đen",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Be",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Be",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Be",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Trắng",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Trắng",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Trắng",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "BOXY",
+        "product_name": "BOXY - BX",
         "product_color": "Đen",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Kem",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Kem",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Kem",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xanh rêu",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xanh rêu",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xanh rêu",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xám tiêu",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xám tiêu",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Xám tiêu",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE LIỀN",
+        "product_name": "HOODIE LIỀN - HD",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE ZIP",
+        "product_name": "HOODIE ZIP - HDZ",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE ZIP",
+        "product_name": "HOODIE ZIP - HDZ",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "HOODIE ZIP",
+        "product_name": "HOODIE ZIP - HDZ",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Be",
         "product_size": "XXL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Trắng",
         "product_size": "XXL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "POLO",
+        "product_name": "POLO - PL",
         "product_color": "Đen",
         "product_size": "XXL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Be",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Be",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Be",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám tiêu",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám tiêu",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám tiêu",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám đậm",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám đậm",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Xám đậm",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "SWEATER",
+        "product_name": "SWEATER - SWT",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Xám tiêu",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Xám tiêu",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Xám tiêu",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "SWEATER HALF ZIP",
+        "product_name": "SWEATER HALF ZIP - SHZ",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Hồng",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Trắng",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "-1",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Vàng",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "-1",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "1",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Xanh",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đen",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "100",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "110",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "120",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "130",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "140",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "150",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "ÁO EM BÉ TAY NGẮN",
+        "product_name": "ÁO EM BÉ TAY NGẮN - Lonton",
         "product_color": "Đỏ",
         "product_size": "160",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Be",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Be",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-1",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Be",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "1",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Be",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Be",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "-1",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Nâu",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Nâu",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Nâu",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Nâu",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Nâu",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Trắng",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Trắng",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-5",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Trắng",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Trắng",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Trắng",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "-2",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Đen",
         "product_size": "L",
-        "inventory": "0"
+        "inventory": "-5",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Đen",
         "product_size": "M",
-        "inventory": "0"
+        "inventory": "-6",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Đen",
         "product_size": "S",
-        "inventory": "0"
+        "inventory": "8",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Đen",
         "product_size": "XL",
-        "inventory": "0"
+        "inventory": "-1",
+        "warning": null
       },
       {
-        "product_name": "Áo thun oversize",
+        "product_name": "Áo thun oversize - OVS",
         "product_color": "Đen",
         "product_size": "XS",
-        "inventory": "0"
+        "inventory": "0",
+        "warning": null
       }
     ]
   }

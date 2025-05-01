@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const productColorSelect = document.getElementById('productColor');
     const productSizeSelect = document.getElementById('productSize');
     const displayTypeSelect = document.getElementById('displayType');
+    const showWarningCheckbox = document.getElementById('showWarning');
     const chartContainer = document.getElementById('chartContainer');
     const tableContainer = document.getElementById('tableContainer');
     const inventoryTableBody = document.getElementById('inventoryTableBody');
@@ -78,16 +79,29 @@ document.addEventListener('DOMContentLoaded', function() {
         $('.select2').trigger('change');
     }
 
+    // Hàm kiểm tra trạng thái warning
+    function checkWarningStatus(inventory, warning) {
+        return warning && inventory <= warning;
+    }
+
     // Hàm hiển thị dữ liệu lên bảng
     function displayInventoryData(data) {
         inventoryTableBody.innerHTML = '';
         data.forEach(item => {
+            const isWarning = checkWarningStatus(item.inventory, item.warning);
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${item.product_name}</td>
                 <td>${item.product_color}</td>
                 <td>${item.product_size}</td>
-                <td>${item.inventory || 0}</td>
+                <td class="${isWarning ? 'inventory-warning' : ''}">${item.inventory || 0}</td>
+                <td>${item.warning || 'Chưa thiết lập'}</td>
+                <td>
+                    <div class="status-cell">
+                        <span class="status-indicator ${isWarning ? 'status-warning' : 'status-normal'}"></span>
+                        ${isWarning ? 'Cần nhập hàng' : 'Bình thường'}
+                    </div>
+                </td>
             `;
             inventoryTableBody.appendChild(row);
         });
@@ -97,16 +111,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateChart(data) {
         // Tạo dữ liệu cho biểu đồ
         const productGroups = {};
+        const warningGroups = {};
+        
         data.forEach(item => {
             const key = `${item.product_color} - ${item.product_size}`;
             if (!productGroups[key]) {
                 productGroups[key] = 0;
+                warningGroups[key] = item.warning || 0;
             }
             productGroups[key] += parseInt(item.inventory || 0);
         });
 
         const labels = Object.keys(productGroups);
         const values = Object.values(productGroups);
+        const warnings = Object.values(warningGroups);
 
         // Xóa biểu đồ cũ nếu tồn tại
         if (chart) {
@@ -119,13 +137,27 @@ document.addEventListener('DOMContentLoaded', function() {
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Số lượng tồn kho',
-                    data: values,
-                    backgroundColor: 'rgba(74, 107, 255, 0.5)',
-                    borderColor: 'rgba(74, 107, 255, 1)',
-                    borderWidth: 1
-                }]
+                datasets: [
+                    {
+                        label: 'Số lượng tồn kho',
+                        data: values,
+                        backgroundColor: values.map((value, index) => 
+                            value <= warnings[index] ? 'rgba(220, 53, 69, 0.5)' : 'rgba(74, 107, 255, 0.5)'
+                        ),
+                        borderColor: values.map((value, index) => 
+                            value <= warnings[index] ? 'rgba(220, 53, 69, 1)' : 'rgba(74, 107, 255, 1)'
+                        ),
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Mức cảnh báo',
+                        data: warnings,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderDash: [5, 5],
+                        fill: false
+                    }
+                ]
             },
             options: {
                 responsive: true,
@@ -135,13 +167,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 },
                 plugins: {
-                    legend: {
-                        display: false
-                    },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `Số lượng: ${context.raw}`;
+                                if (context.dataset.label === 'Số lượng tồn kho') {
+                                    const warning = warnings[context.dataIndex];
+                                    const value = context.raw;
+                                    return [
+                                        `Số lượng: ${value}`,
+                                        `Mức cảnh báo: ${warning}`,
+                                        value <= warning ? 'Trạng thái: Cần nhập hàng' : 'Trạng thái: Bình thường'
+                                    ];
+                                }
+                                return `${context.dataset.label}: ${context.raw}`;
                             }
                         }
                     }
@@ -155,12 +193,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedProduct = $(productNameSelect).val();
         const selectedColors = $(productColorSelect).val() || [];
         const selectedSizes = $(productSizeSelect).val() || [];
+        const showWarningOnly = showWarningCheckbox.checked;
 
-        const filteredData = inventoryData.filter(item => {
+        let filteredData = inventoryData.filter(item => {
             const matchesProduct = !selectedProduct || item.product_name === selectedProduct;
             const matchesColor = selectedColors.length === 0 || selectedColors.includes(item.product_color);
             const matchesSize = selectedSizes.length === 0 || selectedSizes.includes(item.product_size);
-            return matchesProduct && matchesColor && matchesSize;
+            const matchesWarning = !showWarningOnly || checkWarningStatus(item.inventory, item.warning);
+            return matchesProduct && matchesColor && matchesSize && matchesWarning;
         });
 
         displayInventoryData(filteredData);
@@ -179,11 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Sự kiện thay đổi cho các select
+    // Sự kiện thay đổi cho các select và checkbox
     $(productNameSelect).on('change', filterInventoryData);
     $(productColorSelect).on('change', filterInventoryData);
     $(productSizeSelect).on('change', filterInventoryData);
     $(displayTypeSelect).on('change', toggleDisplay);
+    showWarningCheckbox.addEventListener('change', filterInventoryData);
 
     // Lấy dữ liệu ban đầu khi trang được tải
     fetchInventoryData();
