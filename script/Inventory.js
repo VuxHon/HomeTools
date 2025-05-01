@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Có lỗi xảy ra khi lấy dữ liệu tồn kho. Vui lòng thử lại sau.');
         }
     }
+    
 
     // Hàm cập nhật các tùy chọn lọc
     function updateFilterOptions() {
