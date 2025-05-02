@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const displayTypeSelect = document.getElementById('displayType');
     const showWarningCheckbox = document.getElementById('showWarning');
     const minQuantityInput = document.getElementById('minQuantity');
+    const sortColumnSelect = document.getElementById('sortColumn');
+    const sortDirectionSelect = document.getElementById('sortDirection');
     const chartContainer = document.getElementById('chartContainer');
     const tableContainer = document.getElementById('tableContainer');
     const inventoryTableBody = document.getElementById('inventoryTableBody');
@@ -196,6 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedSizes = $(productSizeSelect).val() || [];
         const showWarningOnly = showWarningCheckbox.checked;
         const minQuantity = parseInt(minQuantityInput.value) || 0;
+        const sortColumn = $(sortColumnSelect).val();
+        const sortDirection = $(sortDirectionSelect).val();
 
         let filteredData = inventoryData.filter(item => {
             const matchesProduct = !selectedProduct || item.product_name === selectedProduct;
@@ -205,6 +209,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const matchesQuantity = item.inventory <= minQuantity;
             return matchesProduct && matchesColor && matchesSize && matchesWarning && matchesQuantity;
         });
+
+        // Sắp xếp dữ liệu nếu có chọn cột sắp xếp
+        if (sortColumn) {
+            filteredData.sort((a, b) => {
+                let valueA = a[sortColumn];
+                let valueB = b[sortColumn];
+
+                // Chuyển đổi số lượng tồn và mức cảnh báo thành số
+                if (sortColumn === 'inventory' || sortColumn === 'warning') {
+                    valueA = parseInt(valueA) || 0;
+                    valueB = parseInt(valueB) || 0;
+                }
+
+                if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
+                if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
 
         displayInventoryData(filteredData);
         updateChart(filteredData);
@@ -229,6 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
     $(displayTypeSelect).on('change', toggleDisplay);
     showWarningCheckbox.addEventListener('change', filterInventoryData);
     minQuantityInput.addEventListener('input', filterInventoryData);
+    $(sortColumnSelect).on('change', filterInventoryData);
+    $(sortDirectionSelect).on('change', filterInventoryData);
 
     // Lấy dữ liệu ban đầu khi trang được tải
     fetchInventoryData();

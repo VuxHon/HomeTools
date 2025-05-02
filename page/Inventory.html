@@ -52,6 +52,24 @@
                         <label for="minQuantity">Lọc tồn kho thấp hơn:</label>
                         <input type="number" id="minQuantity" min="0" placeholder="Nhập số lượng">
                     </div>
+                    <div class="input-group">
+                        <label for="sortColumn">Sắp xếp theo:</label>
+                        <select id="sortColumn" class="select2">
+                            <option value="">Không sắp xếp</option>
+                            <option value="product_name">Tên sản phẩm</option>
+                            <option value="product_color">Màu sắc</option>
+                            <option value="product_size">Kích thước</option>
+                            <option value="inventory" selected>Số lượng tồn</option>
+                            <option value="warning">Mức cảnh báo</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="sortDirection">Thứ tự:</label>
+                        <select id="sortDirection" class="select2">
+                            <option value="asc" selected>Tăng dần</option>
+                            <option value="desc">Giảm dần</option>
+                        </select>
+                    </div>
                     <div class="input-group warning-filter">
                         <label for="showWarning">
                             <input type="checkbox" id="showWarning"> Chỉ hiện mục cần nhập hàng
