@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const productSizeSelect = document.getElementById('productSize');
     const displayTypeSelect = document.getElementById('displayType');
     const showWarningCheckbox = document.getElementById('showWarning');
+    const minQuantityInput = document.getElementById('minQuantity');
     const chartContainer = document.getElementById('chartContainer');
     const tableContainer = document.getElementById('tableContainer');
     const inventoryTableBody = document.getElementById('inventoryTableBody');
@@ -194,13 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedColors = $(productColorSelect).val() || [];
         const selectedSizes = $(productSizeSelect).val() || [];
         const showWarningOnly = showWarningCheckbox.checked;
+        const minQuantity = parseInt(minQuantityInput.value) || 0;
 
         let filteredData = inventoryData.filter(item => {
             const matchesProduct = !selectedProduct || item.product_name === selectedProduct;
             const matchesColor = selectedColors.length === 0 || selectedColors.includes(item.product_color);
             const matchesSize = selectedSizes.length === 0 || selectedSizes.includes(item.product_size);
             const matchesWarning = !showWarningOnly || checkWarningStatus(item.inventory, item.warning);
-            return matchesProduct && matchesColor && matchesSize && matchesWarning;
+            const matchesQuantity = item.inventory <= minQuantity;
+            return matchesProduct && matchesColor && matchesSize && matchesWarning && matchesQuantity;
         });
 
         displayInventoryData(filteredData);
@@ -225,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $(productSizeSelect).on('change', filterInventoryData);
     $(displayTypeSelect).on('change', toggleDisplay);
     showWarningCheckbox.addEventListener('change', filterInventoryData);
+    minQuantityInput.addEventListener('input', filterInventoryData);
 
     // Lấy dữ liệu ban đầu khi trang được tải
     fetchInventoryData();
