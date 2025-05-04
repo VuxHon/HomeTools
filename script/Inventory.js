@@ -30,7 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Network response was not ok');
             }
             const responseData = await response.json();
+            console.log('Fetched inventory data:', responseData);
             inventoryData = responseData.data || [];
+            
+            // Kiểm tra dữ liệu tồn kho
+            if (inventoryData.length > 0) {
+                console.log('First item inventory:', inventoryData[0].inventory, 'Type:', typeof inventoryData[0].inventory);
+            }
+            
             updateFilterOptions();
             // Chọn sản phẩm đầu tiên mặc định
             if (inventoryData.length > 0) {
@@ -89,15 +96,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hàm hiển thị dữ liệu lên bảng
     function displayInventoryData(data) {
+        console.log('Displaying inventory data:', data.slice(0, 3)); // Log first 3 items
         inventoryTableBody.innerHTML = '';
         data.forEach(item => {
-            const isWarning = checkWarningStatus(item.inventory, item.warning);
+            const inventory = parseInt(item.inventory) || 0;
+            const isWarning = checkWarningStatus(inventory, item.warning);
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${item.product_name}</td>
                 <td>${item.product_color}</td>
                 <td>${item.product_size}</td>
-                <td class="${isWarning ? 'inventory-warning' : ''}">${item.inventory || 0}</td>
+                <td class="${isWarning ? 'inventory-warning' : ''}">${inventory}</td>
                 <td>${item.warning || 'Chưa thiết lập'}</td>
                 <td>
                     <div class="status-cell">
@@ -206,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const matchesColor = selectedColors.length === 0 || selectedColors.includes(item.product_color);
             const matchesSize = selectedSizes.length === 0 || selectedSizes.includes(item.product_size);
             const matchesWarning = !showWarningOnly || checkWarningStatus(item.inventory, item.warning);
-            const matchesQuantity = item.inventory <= minQuantity;
+            const matchesQuantity = parseInt(item.inventory) <= minQuantity;
             return matchesProduct && matchesColor && matchesSize && matchesWarning && matchesQuantity;
         });
 
@@ -218,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Chuyển đổi số lượng tồn và mức cảnh báo thành số
                 if (sortColumn === 'inventory' || sortColumn === 'warning') {
+                    console.log(`valueA: ${valueA} - valueB: ${valueB}`);
                     valueA = parseInt(valueA) || 0;
                     valueB = parseInt(valueB) || 0;
                 }
