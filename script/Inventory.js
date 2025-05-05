@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableContainer = document.getElementById('tableContainer');
     const inventoryTableBody = document.getElementById('inventoryTableBody');
     const inventoryChart = document.getElementById('inventoryChart');
-
+    const MAX_INVENTORY = 1000000000;
     let inventoryData = [];
     let chart = null;
 
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedColors = $(productColorSelect).val() || [];
         const selectedSizes = $(productSizeSelect).val() || [];
         const showWarningOnly = showWarningCheckbox.checked;
-        const minQuantity = parseInt(minQuantityInput.value) || 0;
+        const minQuantity = parseInt(minQuantityInput.value) || MAX_INVENTORY;
         const sortColumn = $(sortColumnSelect).val();
         const sortDirection = $(sortDirectionSelect).val();
 
