@@ -10,6 +10,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        .inventory-warning {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-cell {
+            display: flex;
+            align-items: center;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-warning {
+            background-color: #dc3545;
+        }
+        .status-normal {
+            background-color: #198754;
+        }
+        .page-header {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+        .primary-button {
+            background-color: #4a6bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .primary-button:hover {
+            background-color: #3451d1;
+        }
+        .input-group button {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -72,8 +117,14 @@
                     </div>
                     <div class="input-group warning-filter">
                         <label for="showWarning">
-                            <input type="checkbox" id="showWarning"> Chỉ hiện mục cần nhập hàng
+                            Chỉ hiện mục cần nhập hàng
+                            <div class="warning-filter-checkbox">
+                                <input type="checkbox" id="showWarning">
+                            </div>
                         </label>
+                    </div>
+                    <div class="input-group">
+                        <button id="bulkUpdateButton" class="primary-button">Cập nhật hàng loạt</button>
                     </div>
                 </div>
 

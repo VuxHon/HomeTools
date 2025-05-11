@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableContainer = document.getElementById('tableContainer');
     const inventoryTableBody = document.getElementById('inventoryTableBody');
     const inventoryChart = document.getElementById('inventoryChart');
+    const bulkUpdateButton = document.getElementById('bulkUpdateButton');
     const MAX_INVENTORY = 1000000000;
     let inventoryData = [];
     let chart = null;
@@ -50,6 +51,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Hàm gửi cập nhật hàng loạt tồn kho
+    async function updateBulkInventory(updateData) {
+        try {
+            const response = await fetch('https://n8n.nhtan.app/webhook-test/update_inventories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const result = await response.json();
+            console.log('Update result:', result);
+            
+            // Refresh data after update
+            await fetchInventoryData();
+            alert('Cập nhật tồn kho thành công!');
+            
+        } catch (error) {
+            console.error('Error updating inventory:', error);
+            alert('Có lỗi xảy ra khi cập nhật tồn kho. Vui lòng thử lại sau.');
+        }
+    }
 
     // Hàm cập nhật các tùy chọn lọc
     function updateFilterOptions() {
@@ -263,6 +291,35 @@ document.addEventListener('DOMContentLoaded', function() {
     minQuantityInput.addEventListener('input', filterInventoryData);
     $(sortColumnSelect).on('change', filterInventoryData);
     $(sortDirectionSelect).on('change', filterInventoryData);
+    
+    // Thêm nút cập nhật hàng loạt
+    function addBulkUpdateButton() {
+        const filterContainer = document.querySelector('.card-body');
+        if (filterContainer) {
+            const bulkUpdateBtn = document.createElement('button');
+            bulkUpdateBtn.className = 'btn btn-primary mt-3';
+            bulkUpdateBtn.textContent = 'Cập Nhật Hàng Loạt';
+            bulkUpdateBtn.addEventListener('click', navigateToBulkUpdatePage);
+            filterContainer.appendChild(bulkUpdateBtn);
+        }
+    }
+    
+    // Hàm chuyển hướng đến trang cập nhật hàng loạt
+    function navigateToBulkUpdatePage() {
+        // Lưu dữ liệu hiện tại vào localStorage để có thể sử dụng ở trang khác
+        localStorage.setItem('inventoryData', JSON.stringify(inventoryData));
+        
+        // Chuyển hướng đến trang cập nhật hàng loạt
+        window.location.href = 'bulk-update.html';
+    }
+    
+    // Thêm nút cập nhật hàng loạt
+    addBulkUpdateButton();
+
+    // Thêm sự kiện cho nút bulkUpdateButton trong HTML
+    if (bulkUpdateButton) {
+        bulkUpdateButton.addEventListener('click', navigateToBulkUpdatePage);
+    }
 
     // Lấy dữ liệu ban đầu khi trang được tải
     fetchInventoryData();
