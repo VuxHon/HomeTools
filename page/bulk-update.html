@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Hàng Loạt Tồn Kho</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <style>
+        .inventory-warning {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-cell {
+            display: flex;
+            align-items: center;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-warning {
+            background-color: #dc3545;
+        }
+        .status-normal {
+            background-color: #198754;
+        }
+        .page-header {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+        .filter-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .filter-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        .modified {
+            background-color: #e8f4ff;
+        }
+        .search-box {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Cập Nhật Hàng Loạt Tồn Kho</h1>
+                <button id="backButton" class="btn btn-outline-secondary">Quay lại</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="alert alert-info">
+            Điều chỉnh số lượng tồn kho và mức cảnh báo cho sản phẩm dưới đây. Chỉ những sản phẩm được thay đổi sẽ được cập nhật.
+        </div>
+
+        <div class="filter-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+            </div>
+            <div class="filter-row">
+                <div class="filter-item">
+                    <label for="productNameFilter">Tên sản phẩm:</label>
+                    <select id="productNameFilter" class="form-control select2">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="productColorFilter">Màu sắc:</label>
+                    <select id="productColorFilter" class="form-control select2" multiple>
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="productSizeFilter">Kích thước:</label>
+                    <select id="productSizeFilter" class="form-control select2" multiple>
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-item">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showModifiedOnly">
+                        <label class="form-check-label" for="showModifiedOnly">
+                            Chỉ hiện mục đã sửa đổi
+                        </label>
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-secondary me-md-2" id="cancelButton">Hủy bỏ</button>
+                        <button class="btn btn-primary" id="submitBulkUpdate">Cập Nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div id="bulkUpdateProductList" class="mt-3">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
+                        <p>Đang tải dữ liệu...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Value Modal -->
+    <div class="modal fade" id="batchValueModal" tabindex="-1" aria-labelledby="batchValueModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchValueModalLabel">Nhập giá trị hàng loạt</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="batchInventoryValue" class="form-label">Giá trị tồn kho mới:</label>
+                        <input type="number" class="form-control" id="batchInventoryValue" min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="batchWarningValue" class="form-label">Giá trị cảnh báo mới:</label>
+                        <input type="number" class="form-control" id="batchWarningValue" min="0">
+                    </div>
+                    <div class="form-text text-muted">
+                        Giá trị sẽ được áp dụng cho tất cả các sản phẩm đang hiển thị.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="applyBatchValueBtn">Áp dụng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script cho trang cập nhật hàng loạt -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bulkUpdateProductList = document.getElementById('bulkUpdateProductList');
+            const submitBulkUpdateBtn = document.getElementById('submitBulkUpdate');
+            const backButton = document.getElementById('backButton');
+            const cancelButton = document.getElementById('cancelButton');
+            const searchInput = document.getElementById('searchInput');
+            const productNameFilter = document.getElementById('productNameFilter');
+            const productColorFilter = document.getElementById('productColorFilter');
+            const productSizeFilter = document.getElementById('productSizeFilter');
+            const showModifiedOnly = document.getElementById('showModifiedOnly');
+
+            let inventoryData = [];
+            let originalData = {};
+            let modifiedItems = new Set();
+
+            // Khởi tạo Select2
+            $('.select2').select2({
+                placeholder: 'Chọn...',
+                allowClear: true,
+                width: '100%'
+            });
+
+            // Lấy dữ liệu trực tiếp từ API
+            async function fetchInventoryData() {
+                try {
+                    const response = await fetch('https://n8n.nhtan.app/webhook/get_inventories');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const responseData = await response.json();
+                    console.log('Fetched inventory data:', responseData);
+                    inventoryData = responseData.data || [];
+                    
+                    // Lưu trữ dữ liệu gốc
+                    inventoryData.forEach(item => {
+                        originalData[item.id] = {
+                            inventory: parseInt(item.inventory) || 0,
+                            warning: parseInt(item.warning) || 0
+                        };
+                    });
+                    
+                    updateFilterOptions();
+                    updateProductList();
+                } catch (error) {
+                    console.error('Error fetching inventory data:', error);
+                    bulkUpdateProductList.innerHTML = `
+                        <div class="alert alert-danger">
+                            Có lỗi xảy ra khi lấy dữ liệu tồn kho. Vui lòng thử lại sau.
+                        </div>
+                    `;
+                }
+            }
+
+            // Hàm cập nhật các tùy chọn lọc
+            function updateFilterOptions() {
+                // Lấy danh sách tên sản phẩm, màu sắc và kích thước duy nhất
+                const productNames = [...new Set(inventoryData.map(item => item.product_name))];
+                const productColors = [...new Set(inventoryData.map(item => item.product_color))];
+                const productSizes = [...new Set(inventoryData.map(item => item.product_size))];
+
+                // Cập nhật select tên sản phẩm
+                productNameFilter.innerHTML = '<option value="">Tất cả</option>';
+                productNames.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    productNameFilter.appendChild(option);
+                });
+
+                // Cập nhật select màu sắc
+                productColorFilter.innerHTML = '';
+                productColors.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    productColorFilter.appendChild(option);
+                });
+
+                // Cập nhật select kích thước
+                productSizeFilter.innerHTML = '';
+                productSizes.forEach(size => {
+                    const option = document.createElement('option');
+                    option.value = size;
+                    option.textContent = size;
+                    productSizeFilter.appendChild(option);
+                });
+
+                // Cập nhật lại Select2
+                $('.select2').trigger('change');
+            }
+
+            // Hàm kiểm tra trạng thái warning
+            function checkWarningStatus(inventory, warning) {
+                return warning && inventory <= warning;
+            }
+
+            // Hàm kiểm tra xem một mục có đã được sửa đổi hay không
+            function isItemModified(id, newInventory, newWarning) {
+                const original = originalData[id];
+                if (!original) return false;
+                
+                return newInventory !== original.inventory || newWarning !== original.warning;
+            }
+
+            // Hiển thị danh sách sản phẩm theo bộ lọc
+            function updateProductList() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedProduct = productNameFilter.value;
+                const selectedColors = Array.from(productColorFilter.selectedOptions).map(option => option.value);
+                const selectedSizes = Array.from(productSizeFilter.selectedOptions).map(option => option.value);
+                const onlyModified = showModifiedOnly.checked;
+                
+                // Lọc dữ liệu
+                const filteredData = inventoryData.filter(item => {
+                    // Cải thiện tìm kiếm - tách từ khóa và kiểm tra từng từ
+                    let matchesSearch = true;
+                    if (searchTerm.trim() !== '') {
+                        const keywords = searchTerm.split(/\s+/);
+                        matchesSearch = keywords.every(keyword => {
+                            const productNameMatch = item.product_name.toLowerCase().includes(keyword);
+                            const colorMatch = item.product_color.toLowerCase().includes(keyword);
+                            const sizeMatch = item.product_size.toLowerCase() === keyword; // So khớp chính xác cho kích thước
+                            return productNameMatch || colorMatch || sizeMatch;
+                        });
+                    }
+                    
+                    const matchesProduct = !selectedProduct || item.product_name === selectedProduct;
+                    const matchesColor = selectedColors.length === 0 || selectedColors.includes(item.product_color);
+                    const matchesSize = selectedSizes.length === 0 || selectedSizes.includes(item.product_size);
+                    const matchesModified = !onlyModified || modifiedItems.has(item.id);
+                    
+                    return matchesSearch && matchesProduct && matchesColor && matchesSize && matchesModified;
+                });
+                
+                // Hiển thị danh sách
+                bulkUpdateProductList.innerHTML = '';
+                
+                if (filteredData.length === 0) {
+                    bulkUpdateProductList.innerHTML = '<div class="alert alert-info">Không có sản phẩm nào phù hợp với điều kiện lọc.</div>';
+                    return;
+                }
+                
+                // Nhóm sản phẩm theo tên, màu sắc và kích thước
+                const productGroups = {};
+                
+                filteredData.forEach(item => {
+                    const key = `${item.product_name}|${item.product_color}|${item.product_size}`;
+                    if (!productGroups[key]) {
+                        productGroups[key] = {
+                            product_name: item.product_name,
+                            product_color: item.product_color,
+                            product_size: item.product_size,
+                            inventory: parseInt(item.inventory) || 0,
+                            warning: parseInt(item.warning) || 0,
+                            id: item.id
+                        };
+                    }
+                });
+                
+                // Tạo các dòng cho từng sản phẩm
+                Object.values(productGroups).forEach((item, index) => {
+                    const isModified = modifiedItems.has(item.id);
+                    const row = document.createElement('div');
+                    row.className = `mb-3 border-bottom pb-3 ${isModified ? 'modified' : ''}`;
+                    row.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>${item.product_name}</strong><br>
+                                    Màu: ${item.product_color} | Size: ${item.product_size}<br>
+                                    Tồn kho hiện tại: <span class="text-primary">${originalData[item.id]?.inventory || 0}</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="newInventory${index}">Số lượng mới:</label>
+                                    <input type="number" class="form-control bulk-inventory-input" 
+                                        id="newInventory${index}" 
+                                        data-id="${item.id}"
+                                        data-product-name="${item.product_name}"
+                                        data-product-color="${item.product_color}"
+                                        data-product-size="${item.product_size}"
+                                        value="${item.inventory}">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="newWarning${index}">Mức cảnh báo mới:</label>
+                                    <input type="number" class="form-control bulk-warning-input" 
+                                        id="newWarning${index}" 
+                                        data-id="${item.id}"
+                                        value="${item.warning || 0}">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    bulkUpdateProductList.appendChild(row);
+                });
+                
+                // Thêm sự kiện cho các input mới
+                addInputChangeListeners();
+            }
+            
+            // Thêm sự kiện cho các input
+            function addInputChangeListeners() {
+                const inventoryInputs = document.querySelectorAll('.bulk-inventory-input');
+                const warningInputs = document.querySelectorAll('.bulk-warning-input');
+                
+                // Thêm sự kiện cho input tồn kho
+                inventoryInputs.forEach(input => {
+                    input.addEventListener('change', function() {
+                        const id = this.getAttribute('data-id');
+                        const newInventory = parseInt(this.value) || 0;
+                        const warningInput = document.querySelector(`.bulk-warning-input[data-id="${id}"]`);
+                        const newWarning = parseInt(warningInput.value) || 0;
+                        
+                        if (isItemModified(id, newInventory, newWarning)) {
+                            modifiedItems.add(id);
+                            this.closest('.mb-3').classList.add('modified');
+                        } else {
+                            modifiedItems.delete(id);
+                            this.closest('.mb-3').classList.remove('modified');
+                        }
+                        
+                        updateModifiedCounter();
+                    });
+                });
+                
+                // Thêm sự kiện cho input cảnh báo
+                warningInputs.forEach(input => {
+                    input.addEventListener('change', function() {
+                        const id = this.getAttribute('data-id');
+                        const newWarning = parseInt(this.value) || 0;
+                        const inventoryInput = document.querySelector(`.bulk-inventory-input[data-id="${id}"]`);
+                        const newInventory = parseInt(inventoryInput.value) || 0;
+                        
+                        if (isItemModified(id, newInventory, newWarning)) {
+                            modifiedItems.add(id);
+                            this.closest('.mb-3').classList.add('modified');
+                        } else {
+                            modifiedItems.delete(id);
+                            this.closest('.mb-3').classList.remove('modified');
+                        }
+                        
+                        updateModifiedCounter();
+                    });
+                });
+            }
+            
+            // Cập nhật bộ đếm mục đã sửa đổi
+            function updateModifiedCounter() {
+                submitBulkUpdateBtn.textContent = modifiedItems.size > 0 
+                    ? `Cập Nhật (${modifiedItems.size} mục)` 
+                    : 'Cập Nhật';
+            }
+
+            // Gửi cập nhật hàng loạt tồn kho
+            async function updateBulkInventory() {
+                if (modifiedItems.size === 0) {
+                    alert('Không có mục nào được thay đổi để cập nhật.');
+                    return;
+                }
+                
+                const updateData = {
+                    items: []
+                };
+                
+                // Thu thập dữ liệu đã sửa đổi
+                modifiedItems.forEach(id => {
+                    const inventoryInput = document.querySelector(`.bulk-inventory-input[data-id="${id}"]`);
+                    const warningInput = document.querySelector(`.bulk-warning-input[data-id="${id}"]`);
+                    
+                    if (inventoryInput && warningInput) {
+                        const productName = inventoryInput.getAttribute('data-product-name');
+                        const productColor = inventoryInput.getAttribute('data-product-color');
+                        const productSize = inventoryInput.getAttribute('data-product-size');
+                        const newInventory = parseInt(inventoryInput.value) || 0;
+                        const newWarning = parseInt(warningInput.value) || 0;
+                        
+                        updateData.items.push({
+                            id: id,
+                            product_name: productName,
+                            product_color: productColor,
+                            product_size: productSize,
+                            inventory: newInventory,
+                            warning: newWarning
+                        });
+                    }
+                });
+                
+                try {
+                    const response = await fetch('https://n8n.nhtan.app/webhook-test/update_inventories', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updateData)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Update result:', result);
+                    
+                    alert('Cập nhật tồn kho thành công!');
+                    
+                    // Tải lại dữ liệu
+                    await fetchInventoryData();
+                    modifiedItems.clear();
+                    updateModifiedCounter();
+                    
+                } catch (error) {
+                    console.error('Error updating inventory:', error);
+                    alert('Có lỗi xảy ra khi cập nhật tồn kho. Vui lòng thử lại sau.');
+                }
+            }
+
+            // Sự kiện thay đổi cho các select và checkbox
+            searchInput.addEventListener('input', updateProductList);
+            productNameFilter.addEventListener('change', updateProductList);
+            productColorFilter.addEventListener('change', updateProductList);
+            productSizeFilter.addEventListener('change', updateProductList);
+            showModifiedOnly.addEventListener('change', updateProductList);
+
+            // Sự kiện khi bấm nút quay lại
+            backButton.addEventListener('click', function() {
+                window.location.href = 'Inventory.html';
+            });
+            
+            // Sự kiện khi bấm nút hủy bỏ
+            cancelButton.addEventListener('click', function() {
+                window.location.href = 'Inventory.html';
+            });
+            
+            // Sự kiện khi bấm nút cập nhật
+            submitBulkUpdateBtn.addEventListener('click', updateBulkInventory);
+
+            // Tải dữ liệu khi trang được tải
+            fetchInventoryData();
+        });
+    </script>
+</body>
+</html> 
