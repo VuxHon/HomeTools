@@ -173,6 +173,7 @@ function updateTopProductsChart() {
             }]
         },
         options: {
+            indexAxis: 'y',
             responsive: true,
             plugins: {
                 legend: {
@@ -180,7 +181,7 @@ function updateTopProductsChart() {
                 }
             },
             scales: {
-                y: {
+                x: {
                     beginAtZero: true
                 }
             }
@@ -208,25 +209,22 @@ function updateSalesTable() {
             const accordion = document.createElement('div');
             accordion.className = 'accordion';
             
-            const totalQuantity = items.reduce((sum, item) => sum + Math.abs(parseInt(item.total_quantity_sold)), 0);
+            let sortDesc = true;
+            let sortedItems = [...items].sort((a, b) => Math.abs(b.total_quantity_sold) - Math.abs(a.total_quantity_sold));
             
-            accordion.innerHTML = `
-                <div class="accordion-header">
-                    <span>${date} - Tổng số lượng: ${totalQuantity}</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="accordion-content">
+            const renderTable = () => {
+                return `
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Sản phẩm</th>
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
-                                <th>Số lượng</th>
+                                <th style="cursor:pointer" id="sortQty">Số lượng <i class="fas fa-sort"></i></th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${items.map(item => `
+                            ${sortedItems.map(item => `
                                 <tr>
                                     <td>${item.product_name}</td>
                                     <td>${item.product_color}</td>
@@ -236,11 +234,33 @@ function updateSalesTable() {
                             `).join('')}
                         </tbody>
                     </table>
+                `;
+            };
+
+            accordion.innerHTML = `
+                <div class="accordion-header">
+                    <span>${date} - Tổng số lượng: ${items.reduce((sum, item) => sum + Math.abs(parseInt(item.total_quantity_sold)), 0)}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    ${renderTable()}
                 </div>
             `;
 
             accordion.querySelector('.accordion-header').addEventListener('click', () => {
                 accordion.classList.toggle('active');
+            });
+
+            // Add sort event
+            accordion.querySelector('#sortQty').addEventListener('click', function(e) {
+                sortDesc = !sortDesc;
+                sortedItems = [...items].sort((a, b) => sortDesc
+                    ? Math.abs(b.total_quantity_sold) - Math.abs(a.total_quantity_sold)
+                    : Math.abs(a.total_quantity_sold) - Math.abs(b.total_quantity_sold)
+                );
+                accordion.querySelector('.accordion-content').innerHTML = renderTable();
+                // Re-attach sort event after re-render
+                accordion.querySelector('#sortQty').addEventListener('click', arguments.callee);
             });
 
             tableContainer.appendChild(accordion);
