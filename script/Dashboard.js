@@ -86,24 +86,28 @@ function updateDashboard() {
 
 // Update overview cards
 function updateOverviewCards() {
-    const totalQuantity = salesData.reduce((sum, item) => sum + Math.abs(parseInt(item.total_quantity_sold)), 0);
-    const totalTransactions = salesData.length;
-    const uniqueProducts = new Set(salesData.map(item => item.product_name)).size;
+    // Filter out items with null product_name (these seem to be invalid entries)
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
+    const totalQuantity = validItems.reduce((sum, item) => sum + parseInt(item.total_quantity_sold || 0), 0);
+    const totalOrders = validItems.reduce((sum, item) => sum + parseInt(item.total_orders_per_day || 0), 0);
 
     document.getElementById('totalQuantity').textContent = totalQuantity;
-    document.getElementById('totalTransactions').textContent = totalTransactions;
-    document.getElementById('uniqueProducts').textContent = uniqueProducts;
+    document.getElementById('totalOrders').textContent = totalOrders;
 }
 
 // Update sales chart
 function updateSalesChart() {
+    // Filter out items with null product_name
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
     const salesByDate = {};
-    salesData.forEach(item => {
+    validItems.forEach(item => {
         const date = item.transaction_date;
         if (!salesByDate[date]) {
             salesByDate[date] = 0;
         }
-        salesByDate[date] += Math.abs(parseInt(item.total_quantity_sold));
+        salesByDate[date] += parseInt(item.total_quantity_sold || 0);
     });
 
     const dates = Object.keys(salesByDate).sort();
@@ -144,13 +148,16 @@ function updateSalesChart() {
 
 // Update top products chart
 function updateTopProductsChart() {
+    // Filter out items with null product_name
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
     const productSales = {};
-    salesData.forEach(item => {
+    validItems.forEach(item => {
         const key = `${item.product_name} - ${item.product_color} - ${item.product_size}`;
         if (!productSales[key]) {
             productSales[key] = 0;
         }
-        productSales[key] += Math.abs(parseInt(item.total_quantity_sold));
+        productSales[key] += parseInt(item.total_quantity_sold || 0);
     });
 
     const sortedProducts = Object.entries(productSales)
@@ -191,8 +198,11 @@ function updateTopProductsChart() {
 
 // Update sales table
 function updateSalesTable() {
+    // Filter out items with null product_name
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
     const salesByDate = {};
-    salesData.forEach(item => {
+    validItems.forEach(item => {
         const date = item.transaction_date;
         if (!salesByDate[date]) {
             salesByDate[date] = [];
@@ -210,7 +220,7 @@ function updateSalesTable() {
             accordion.className = 'accordion';
             
             let sortDesc = true;
-            let sortedItems = [...items].sort((a, b) => Math.abs(b.total_quantity_sold) - Math.abs(a.total_quantity_sold));
+            let sortedItems = [...items].sort((a, b) => parseInt(b.total_quantity_sold || 0) - parseInt(a.total_quantity_sold || 0));
             
             const renderTable = () => {
                 return `
@@ -221,6 +231,7 @@ function updateSalesTable() {
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
                                 <th style="cursor:pointer" id="sortQty">Số lượng <i class="fas fa-sort"></i></th>
+                                <th>Số đơn</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -229,7 +240,8 @@ function updateSalesTable() {
                                     <td>${item.product_name}</td>
                                     <td>${item.product_color}</td>
                                     <td>${item.product_size}</td>
-                                    <td>${Math.abs(parseInt(item.total_quantity_sold))}</td>
+                                    <td>${parseInt(item.total_quantity_sold || 0)}</td>
+                                    <td>${parseInt(item.total_orders_per_day || 0)}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -237,9 +249,12 @@ function updateSalesTable() {
                 `;
             };
 
+            const totalQuantity = items.reduce((sum, item) => sum + parseInt(item.total_quantity_sold || 0), 0);
+            const totalOrders = items.reduce((sum, item) => sum + parseInt(item.total_orders_per_day || 0), 0);
+
             accordion.innerHTML = `
                 <div class="accordion-header">
-                    <span>${date} - Tổng số lượng: ${items.reduce((sum, item) => sum + Math.abs(parseInt(item.total_quantity_sold)), 0)}</span>
+                    <span>${date} - Tổng số lượng: ${totalQuantity} | Tổng đơn: ${totalOrders}</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="accordion-content">
@@ -255,8 +270,8 @@ function updateSalesTable() {
             accordion.querySelector('#sortQty').addEventListener('click', function(e) {
                 sortDesc = !sortDesc;
                 sortedItems = [...items].sort((a, b) => sortDesc
-                    ? Math.abs(b.total_quantity_sold) - Math.abs(a.total_quantity_sold)
-                    : Math.abs(a.total_quantity_sold) - Math.abs(b.total_quantity_sold)
+                    ? parseInt(b.total_quantity_sold || 0) - parseInt(a.total_quantity_sold || 0)
+                    : parseInt(a.total_quantity_sold || 0) - parseInt(b.total_quantity_sold || 0)
                 );
                 accordion.querySelector('.accordion-content').innerHTML = renderTable();
                 // Re-attach sort event after re-render
@@ -269,9 +284,12 @@ function updateSalesTable() {
 
 // Update filters
 function updateFilters() {
-    const products = [...new Set(salesData.map(item => item.product_name))];
-    const colors = [...new Set(salesData.map(item => item.product_color))];
-    const sizes = [...new Set(salesData.map(item => item.product_size))];
+    // Filter out items with null product_name
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
+    const products = [...new Set(validItems.map(item => item.product_name))];
+    const colors = [...new Set(validItems.map(item => item.product_color))];
+    const sizes = [...new Set(validItems.map(item => item.product_size))];
 
     const productFilter = $('#productFilter');
     const colorFilter = $('#colorFilter');
@@ -298,13 +316,17 @@ function updateFilters() {
 document.getElementById('exportButton').addEventListener('click', () => {
     const wb = XLSX.utils.book_new();
     
+    // Filter out items with null product_name
+    const validItems = salesData.filter(item => item.product_name !== null);
+    
     // Prepare data for export
-    const exportData = salesData.map(item => ({
+    const exportData = validItems.map(item => ({
         'Ngày': item.transaction_date,
         'Sản phẩm': item.product_name,
         'Màu sắc': item.product_color,
         'Kích thước': item.product_size,
-        'Số lượng': Math.abs(parseInt(item.total_quantity_sold))
+        'Số lượng bán': parseInt(item.total_quantity_sold || 0),
+        'Số đơn': parseInt(item.total_orders_per_day || 0)
     }));
 
     const ws = XLSX.utils.json_to_sheet(exportData);
