@@ -47,6 +47,54 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .chart-header h2 {
+            margin: 0;
+        }
+        .chart-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .toggle-line-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            color: #6c757d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .toggle-line-btn:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .toggle-line-btn.active[data-line="quantity"] {
+            background-color: #4a6bff;
+            border-color: #4a6bff;
+            color: white;
+        }
+        .toggle-line-btn.active[data-line="orders"] {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+        .toggle-line-btn.inactive {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            color: #6c757d;
+        }
+        .toggle-line-btn.inactive i {
+            opacity: 0.5;
+        }
         .header-actions {
             margin-bottom: 20px;
         }
@@ -286,6 +334,19 @@
             .category-label {
                 min-width: auto;
             }
+            .chart-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .chart-controls {
+                width: 100%;
+                justify-content: center;
+            }
+            .toggle-line-btn {
+                flex: 1;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -396,7 +457,17 @@
             </div>
 
             <div class="chart-container">
-                <h2>Biểu đồ bán hàng theo ngày</h2>
+                <div class="chart-header">
+                    <h2>Biểu đồ bán hàng theo ngày</h2>
+                    <div class="chart-controls">
+                        <button id="toggleQuantityLine" class="toggle-line-btn active" data-line="quantity">
+                            <i class="fas fa-eye"></i> Số lượng bán
+                        </button>
+                        <button id="toggleOrdersLine" class="toggle-line-btn active" data-line="orders">
+                            <i class="fas fa-eye"></i> Số đơn hàng
+                        </button>
+                    </div>
+                </div>
                 <canvas id="salesChart"></canvas>
             </div>
 

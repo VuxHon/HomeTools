@@ -136,6 +136,10 @@ let salesData = [];
 let filteredData = [];
 let salesChart = null;
 let topProductsChart = null;
+let chartVisibility = {
+    quantity: true,
+    orders: true
+};
 
 // Fetch data from API
 async function fetchData(startDate, endDate) {
@@ -366,19 +370,55 @@ function updateOverviewCards() {
 // Update sales chart
 function updateSalesChart() {
     const salesByDate = {};
+    const ordersByDate = {};
+    
     filteredData.forEach(item => {
         const date = item.transaction_date;
         if (!salesByDate[date]) {
             salesByDate[date] = 0;
+            ordersByDate[date] = new Set();
         }
         salesByDate[date] += parseInt(item.total_quantity_sold || 0);
+        
+        // Count unique orders per date
+        if (item.order_id && item.order_id !== 'None') {
+            ordersByDate[date].add(item.order_id);
+        }
     });
 
     const dates = Object.keys(salesByDate).sort();
     const quantities = dates.map(date => salesByDate[date]);
+    const orders = dates.map(date => ordersByDate[date] ? ordersByDate[date].size : 0);
 
     if (salesChart) {
         salesChart.destroy();
+    }
+
+    // Create datasets based on visibility
+    const datasets = [];
+    
+    if (chartVisibility.quantity) {
+        datasets.push({
+            label: 'Số lượng bán',
+            data: quantities,
+            borderColor: '#4a6bff',
+            backgroundColor: '#4a6bff',
+            tension: 0.1,
+            fill: false,
+            yAxisID: 'y'
+        });
+    }
+    
+    if (chartVisibility.orders) {
+        datasets.push({
+            label: 'Số đơn hàng',
+            data: orders,
+            borderColor: '#ff6b6b',
+            backgroundColor: '#ff6b6b',
+            tension: 0.1,
+            fill: false,
+            yAxisID: 'y1'
+        });
     }
 
     const ctx = document.getElementById('salesChart').getContext('2d');
@@ -386,24 +426,57 @@ function updateSalesChart() {
         type: 'line',
         data: {
             labels: dates,
-            datasets: [{
-                label: 'Số lượng bán',
-                data: quantities,
-                borderColor: '#4a6bff',
-                tension: 0.1,
-                fill: false
-            }]
+            datasets: datasets
         },
         options: {
             responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             plugins: {
                 legend: {
                     position: 'top',
                 }
             },
             scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Ngày'
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    type: 'linear',
+                    display: chartVisibility.quantity,
+                    position: 'left',
+                    title: {
+                        display: chartVisibility.quantity,
+                        text: 'Số lượng bán',
+                        color: '#4a6bff'
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#4a6bff'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: chartVisibility.orders,
+                    position: 'right',
+                    title: {
+                        display: chartVisibility.orders,
+                        text: 'Số đơn hàng',
+                        color: '#ff6b6b'
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#ff6b6b'
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                    },
                 }
             }
         }
@@ -478,7 +551,24 @@ function updateSalesTable() {
             accordion.className = 'accordion';
             
             let sortDesc = true;
-            let sortedItems = [...items].sort((a, b) => parseInt(b.total_quantity_sold || 0) - parseInt(a.total_quantity_sold || 0));
+            
+            // Group items by product details and sum quantities
+            const groupedItems = {};
+            items.forEach(item => {
+                const key = `${item.shop_name || 'N/A'}_${item.product_name}_${item.product_color}_${item.product_size}`;
+                if (!groupedItems[key]) {
+                    groupedItems[key] = {
+                        shop_name: item.shop_name || 'N/A',
+                        product_name: item.product_name,
+                        product_color: item.product_color,
+                        product_size: item.product_size,
+                        total_quantity_sold: 0
+                    };
+                }
+                groupedItems[key].total_quantity_sold += parseInt(item.total_quantity_sold || 0);
+            });
+            
+            let sortedItems = Object.values(groupedItems).sort((a, b) => parseInt(b.total_quantity_sold || 0) - parseInt(a.total_quantity_sold || 0));
             
             const renderTable = () => {
                 return `
@@ -490,18 +580,16 @@ function updateSalesTable() {
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
                                 <th style="cursor:pointer" id="sortQty">Số lượng <i class="fas fa-sort"></i></th>
-                                <th>Order ID</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${sortedItems.map(item => `
                                 <tr>
-                                    <td>${item.shop_name || 'N/A'}</td>
+                                    <td>${item.shop_name}</td>
                                     <td>${item.product_name}</td>
                                     <td>${item.product_color}</td>
                                     <td>${item.product_size}</td>
                                     <td>${parseInt(item.total_quantity_sold || 0)}</td>
-                                    <td>${item.order_id || 'N/A'}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -530,7 +618,7 @@ function updateSalesTable() {
             // Add sort event
             accordion.querySelector('#sortQty').addEventListener('click', function(e) {
                 sortDesc = !sortDesc;
-                sortedItems = [...items].sort((a, b) => sortDesc
+                sortedItems = Object.values(groupedItems).sort((a, b) => sortDesc
                     ? parseInt(b.total_quantity_sold || 0) - parseInt(a.total_quantity_sold || 0)
                     : parseInt(a.total_quantity_sold || 0) - parseInt(b.total_quantity_sold || 0)
                 );
@@ -628,20 +716,59 @@ function updateFilters() {
 document.getElementById('exportButton').addEventListener('click', () => {
     const wb = XLSX.utils.book_new();
     
-    // Prepare data for export using filtered data
-    const exportData = filteredData.map(item => ({
-        'Ngày': item.transaction_date,
-        'Cửa hàng': item.shop_name || 'N/A',
-        'Sản phẩm': item.product_name,
-        'Màu sắc': item.product_color,
-        'Kích thước': item.product_size,
-        'Số lượng bán': parseInt(item.total_quantity_sold || 0),
-        'Order ID': item.order_id || 'N/A'
-    }));
+    // Group and prepare data for export using filtered data
+    const groupedExportData = {};
+    filteredData.forEach(item => {
+        const key = `${item.transaction_date}_${item.shop_name || 'N/A'}_${item.product_name}_${item.product_color}_${item.product_size}`;
+        if (!groupedExportData[key]) {
+            groupedExportData[key] = {
+                'Ngày': item.transaction_date,
+                'Cửa hàng': item.shop_name || 'N/A',
+                'Sản phẩm': item.product_name,
+                'Màu sắc': item.product_color,
+                'Kích thước': item.product_size,
+                'Số lượng bán': 0
+            };
+        }
+        groupedExportData[key]['Số lượng bán'] += parseInt(item.total_quantity_sold || 0);
+    });
+    
+    const exportData = Object.values(groupedExportData);
 
     const ws = XLSX.utils.json_to_sheet(exportData);
     XLSX.utils.book_append_sheet(wb, ws, "Báo cáo bán hàng");
     XLSX.writeFile(wb, "bao_cao_ban_hang.xlsx");
+});
+
+// Toggle line visibility functions
+function toggleLineVisibility(lineType) {
+    chartVisibility[lineType] = !chartVisibility[lineType];
+    
+    // Update button appearance
+    const button = document.querySelector(`[data-line="${lineType}"]`);
+    const icon = button.querySelector('i');
+    
+    if (chartVisibility[lineType]) {
+        button.classList.remove('inactive');
+        button.classList.add('active');
+        icon.className = 'fas fa-eye';
+    } else {
+        button.classList.remove('active');
+        button.classList.add('inactive');
+        icon.className = 'fas fa-eye-slash';
+    }
+    
+    // Update chart
+    updateSalesChart();
+}
+
+// Add event listeners for toggle buttons
+document.getElementById('toggleQuantityLine').addEventListener('click', () => {
+    toggleLineVisibility('quantity');
+});
+
+document.getElementById('toggleOrdersLine').addEventListener('click', () => {
+    toggleLineVisibility('orders');
 });
 
 // Initialize dashboard with last 30 days data
