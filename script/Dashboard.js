@@ -144,14 +144,25 @@ let chartVisibility = {
 // Fetch data from API
 async function fetchData(startDate, endDate) {
     try {
+        // Format dates as YYYY-MM-DD
+        const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+        
+        const timeStart = formatDate(startDate);
+        const timeEnd = formatDate(endDate);
+        
         const response = await fetch('https://n8n.nhtan.app/webhook/get_dashboard_inventories', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                time_start: startDate.toISOString(),
-                time_end: endDate.toISOString()
+                time_start: timeStart,
+                time_end: timeEnd
             })
         });
 
@@ -722,11 +733,11 @@ document.getElementById('exportButton').addEventListener('click', () => {
         const key = `${item.transaction_date}_${item.shop_name || 'N/A'}_${item.product_name}_${item.product_color}_${item.product_size}`;
         if (!groupedExportData[key]) {
             groupedExportData[key] = {
-                'Ngày': item.transaction_date,
-                'Cửa hàng': item.shop_name || 'N/A',
-                'Sản phẩm': item.product_name,
-                'Màu sắc': item.product_color,
-                'Kích thước': item.product_size,
+        'Ngày': item.transaction_date,
+        'Cửa hàng': item.shop_name || 'N/A',
+        'Sản phẩm': item.product_name,
+        'Màu sắc': item.product_color,
+        'Kích thước': item.product_size,
                 'Số lượng bán': 0
             };
         }
