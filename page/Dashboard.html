@@ -47,11 +47,14 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
-        .filter-section {
+        .header-actions {
+            margin-bottom: 20px;
+        }
+        .filter-row {
             display: flex;
             gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            margin-bottom: 15px;
+            align-items: flex-end;
         }
         .filter-group {
             flex: 1;
@@ -109,21 +112,179 @@
         .export-button:hover {
             background-color: #218838;
         }
-        .header-actions {
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        .clear-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+        .filter-status-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .filter-status-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
+        .filter-status-header h4 {
+            margin: 0;
+            color: #495057;
+            font-size: 1em;
+        }
+        .results-count {
+            background: #4a6bff;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .filter-status-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .filter-category {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .category-label {
+            font-weight: bold;
+            color: #495057;
+            min-width: 80px;
+        }
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-tag {
+            background: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .filter-tag.shop { border-color: #28a745; background: #d4edda; }
+        .filter-tag.product { border-color: #007bff; background: #d1ecf1; }
+        .filter-tag.color { border-color: #fd7e14; background: #ffeaa7; }
+        .filter-tag.size { border-color: #6f42c1; background: #e2d9f3; }
+        .filter-tag .remove-tag {
+            cursor: pointer;
+            color: #6c757d;
+            font-weight: bold;
+        }
+        .filter-tag .remove-tag:hover {
+            color: #dc3545;
+        }
+        .filter-group.has-selection label {
+            color: #4a6bff;
+            font-weight: bold;
+        }
+        
+        /* Simplified Select2 styling without checkboxes */
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+        }
+        
+        .select2-container--default .select2-results__option[aria-selected="true"] {
+            background-color: #4a6bff !important;
+            color: white !important;
+        }
+        
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #f8f9fa !important;
+            color: #333 !important;
+        }
+        
+        /* Custom styling for selected items in dropdown */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #4a6bff;
+            border: 1px solid #4a6bff;
+            color: white;
+            border-radius: 15px;
+            padding: 2px 8px;
+            margin: 2px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #ffcccc;
+        }
+        
+        /* Improve dropdown appearance */
+        .select2-dropdown {
+            border: 1px solid #4a6bff;
+            border-radius: 4px;
+        }
+        
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 6px;
+        }
+        
+        /* Add "Select All" option styling */
+        .select2-results__option.select-all-option {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+            color: #4a6bff;
+        }
+        
+        .select2-results__option.select-all-option[aria-selected="true"] {
+            background-color: #4a6bff !important;
+            color: white !important;
+        }
+        
         @media (max-width: 768px) {
             .overview-cards {
                 grid-template-columns: 1fr;
             }
-            .filter-section {
+            .filter-row {
                 flex-direction: column;
+                gap: 10px;
             }
             .filter-group {
                 width: 100%;
+            }
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            .filter-category {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .category-label {
+                min-width: auto;
             }
         }
     </style>
@@ -144,7 +305,8 @@
 
         <main class="dashboard-container">
             <div class="header-actions">
-                <div class="filter-section">
+                <!-- Row 1: Date filters and action buttons -->
+                <div class="filter-row">
                     <div class="filter-group">
                         <label for="startDate">Từ ngày:</label>
                         <input type="text" id="startDate" placeholder="Chọn ngày bắt đầu">
@@ -153,12 +315,34 @@
                         <label for="endDate">Đến ngày:</label>
                         <input type="text" id="endDate" placeholder="Chọn ngày kết thúc">
                     </div>
+                    <div class="action-buttons">
+                        <button id="clearFiltersButton" class="clear-button">
+                            <i class="fas fa-times"></i> Xóa bộ lọc
+                        </button>
+                        <button id="exportButton" class="export-button">
+                            <i class="fas fa-file-export"></i> Xuất báo cáo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Row 2: Shop and Product filters -->
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="shopFilter">Shop:</label>
+                        <select id="shopFilter" class="select2" multiple>
+                            <option value="">Tất cả shop</option>
+                        </select>
+                    </div>
                     <div class="filter-group">
                         <label for="productFilter">Sản phẩm:</label>
-                        <select id="productFilter" class="select2">
+                        <select id="productFilter" class="select2" multiple>
                             <option value="">Tất cả sản phẩm</option>
                         </select>
                     </div>
+                </div>
+
+                <!-- Row 3: Color and Size filters -->
+                <div class="filter-row">
                     <div class="filter-group">
                         <label for="colorFilter">Màu sắc:</label>
                         <select id="colorFilter" class="select2" multiple>
@@ -172,9 +356,32 @@
                         </select>
                     </div>
                 </div>
-                <button id="exportButton" class="export-button">
-                    <i class="fas fa-file-export"></i> Xuất báo cáo
-                </button>
+            </div>
+
+            <!-- Filter Status Section -->
+            <div class="filter-status-section" id="filterStatusSection" style="display: none;">
+                <div class="filter-status-header">
+                    <h4><i class="fas fa-filter"></i> Bộ lọc đang áp dụng:</h4>
+                    <span class="results-count" id="resultsCount">0 kết quả</span>
+                </div>
+                <div class="filter-status-content">
+                    <div class="filter-category" id="shopFilters" style="display: none;">
+                        <span class="category-label">Shop:</span>
+                        <div class="category-filters"></div>
+                    </div>
+                    <div class="filter-category" id="productFilters" style="display: none;">
+                        <span class="category-label">Sản phẩm:</span>
+                        <div class="category-filters"></div>
+                    </div>
+                    <div class="filter-category" id="colorFilters" style="display: none;">
+                        <span class="category-label">Màu sắc:</span>
+                        <div class="category-filters"></div>
+                    </div>
+                    <div class="filter-category" id="sizeFilters" style="display: none;">
+                        <span class="category-label">Kích thước:</span>
+                        <div class="category-filters"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="overview-cards">
