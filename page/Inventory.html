@@ -54,6 +54,28 @@
         .input-group button {
             margin-top: 5px;
         }
+        .sync-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sync-button:hover {
+            background-color: #0056b3;
+        }
+        .sync-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -130,6 +152,11 @@
                     </div>
                     <div class="input-group">
                         <button id="bulkUpdateButton" class="primary-button">Cập nhật hàng loạt</button>
+                    </div>
+                    <div class="input-group">
+                        <button id="syncInventoryButton" class="sync-button">
+                            <i class="fas fa-sync-alt"></i> Đồng bộ kho
+                        </button>
                     </div>
                 </div>
 

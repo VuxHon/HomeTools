@@ -12,7 +12,7 @@ const startDatePicker = flatpickr("#startDate", {
             longhand: ["Tháng một", "Tháng hai", "Tháng ba", "Tháng tư", "Tháng năm", "Tháng sáu", "Tháng bảy", "Tháng tám", "Tháng chín", "Tháng mười", "Tháng mười một", "Tháng mười hai"]
         }
     },
-    defaultDate: new Date().setDate(new Date().getDate() - 30),
+    defaultDate: new Date().setDate(new Date().getDate() - 7),
     onChange: function(selectedDates) {
         if (selectedDates[0] && endDatePicker.selectedDates[0]) {
             fetchData(selectedDates[0], endDatePicker.selectedDates[0]);

@@ -321,6 +321,56 @@ document.addEventListener('DOMContentLoaded', function() {
         bulkUpdateButton.addEventListener('click', navigateToBulkUpdatePage);
     }
 
+    // Sync inventory function
+    async function syncInventory() {
+        const button = document.getElementById('syncInventoryButton');
+        const originalText = button.innerHTML;
+        
+        try {
+            // Disable button and show loading state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đồng bộ...';
+            
+            const response = await fetch('https://n8n.nhtan.app/webhook/sync_inventory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Đồng bộ kho thành công!');
+                
+                // Refresh inventory data after successful sync
+                await fetchInventoryData();
+            } else {
+                throw new Error(data.message || 'Có lỗi xảy ra khi đồng bộ kho');
+            }
+        } catch (error) {
+            console.error('Error syncing inventory:', error);
+            alert('Lỗi khi đồng bộ kho: ' + error.message);
+        } finally {
+            // Re-enable button and restore original text
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+    }
+
+    // Sync inventory button event listener
+    const syncInventoryButton = document.getElementById('syncInventoryButton');
+    if (syncInventoryButton) {
+        syncInventoryButton.addEventListener('click', () => {
+            // Show confirmation dialog
+            const confirmSync = confirm('Bạn có chắc chắn muốn đồng bộ kho không? Quá trình này có thể mất vài phút.');
+            
+            if (confirmSync) {
+                syncInventory();
+            }
+        });
+    }
+
     // Lấy dữ liệu ban đầu khi trang được tải
     fetchInventoryData();
 }); 
