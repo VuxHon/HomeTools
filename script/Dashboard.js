@@ -782,8 +782,8 @@ document.getElementById('toggleOrdersLine').addEventListener('click', () => {
     toggleLineVisibility('orders');
 });
 
-// Initialize dashboard with last 30 days data
+// Initialize dashboard with last 7 days data
 const endDate = new Date();
 const startDate = new Date();
-startDate.setDate(startDate.getDate() - 30);
+startDate.setDate(startDate.getDate() - 7);
 fetchData(startDate, endDate); 
