@@ -1,0 +1,22 @@
+Tôi cần một website để quản lý lịch làm việc của partime. Trang web chỉ cần 1 trang hiển thị lịch của 1 tuần gồm 3 ca sáng, chiều, tối, trong các ca của mỗi ngày hiện tên của nhân viên.
+Chức năng cần cho web:
+- Chỉnh sửa được ca của nhân viên
+- Có thể kéo thả tên nhân viên từ ca này sang ca khác, hoặc xóa nhân viên ở ca đó
+- Có 1 list nhân viên đang hoạt động và chuyển trạng thái nhân viên
+- Có thể kéo thả tên nhân viên vào 1 ca bất kì
+
+Database được lưu vào google bigquery:
+Dataset: `tools-451916.part_time_schedule`
+
+schedule:
+Trường		| Kiểu dữ liệu		| Ghi chú
+id		| STRING		| ID duy nhất cho lịch làm (UUID)
+staff_id	| STRING		| ID nhân viên
+work_date	|DATE			| Ngày làm việc
+shift		| STRING		| Ca làm (Sáng, Chiều, Tối)
+
+staff:
+id		| STRING		| ID duy nhất cho lịch làm (UUID)
+name		| STRING		| Tên nhân viên
+status		| STRING		| Đang làm/ Đã nghỉ
+
