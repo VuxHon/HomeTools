@@ -402,8 +402,9 @@ class ScheduleManager {
         const nameInput = document.getElementById('editStaffName');
         const statusSelect = document.getElementById('editStaffStatus');
         
-        // Store current staff ID for later use
+        // Store current staff ID and name for later use
         modal.dataset.staffId = staffId;
+        modal.dataset.staffName = staffName;
         
         // Populate form with current values
         nameInput.value = staffName;
@@ -414,6 +415,36 @@ class ScheduleManager {
         nameInput.focus();
         
         console.log('📝 [EditStaff] Opened edit modal for:', staffName);
+    }
+
+    // Delete staff functionality
+    async deleteStaff(staffId, staffName) {
+        try {
+            this.showLoading(`Đang xóa nhân viên ${staffName}...`);
+            
+            // Call BigQuery service to delete staff and their schedules
+            await this.bqClient.query(`
+                DELETE FROM \`${this.bqClient.projectId}.${this.bqClient.datasetId}.schedule\`
+                WHERE staff_id = '${staffId}'
+            `);
+            
+            await this.bqClient.query(`
+                DELETE FROM \`${this.bqClient.projectId}.${this.bqClient.datasetId}.staff\`
+                WHERE id = '${staffId}'
+            `);
+            
+            // Reload data to refresh the UI
+            await this.loadData();
+            this.renderStaffList();
+            this.renderScheduleTable();
+            
+            this.showSuccess(`Đã xóa nhân viên ${staffName} và tất cả lịch làm việc của họ`);
+            
+        } catch (error) {
+            console.error('❌ [DeleteStaff] Error deleting staff:', error);
+            this.showError('Không thể xóa nhân viên. Vui lòng thử lại.');
+            throw error;
+        }
     }
 
     async updateStaff(staffId, name, status) {
@@ -825,9 +856,54 @@ function closeEditStaffModal() {
     const modal = document.getElementById('editStaffModal');
     modal.style.display = 'none';
     modal.dataset.staffId = '';
+    modal.dataset.staffName = '';
     
     // Reset form
     document.getElementById('editStaffForm').reset();
+}
+
+async function handleDeleteStaff() {
+    const modal = document.getElementById('editStaffModal');
+    const staffId = modal.dataset.staffId;
+    const staffName = modal.dataset.staffName;
+    
+    if (!staffId || !staffName) {
+        scheduleManager.showError('Không tìm thấy thông tin nhân viên');
+        return;
+    }
+    
+    // Confirm deletion
+    const confirmMessage = `Bạn có chắc chắn muốn xóa nhân viên "${staffName}"?\n\nVIệc này sẽ xóa tất cả lịch làm việc của nhân viên này và không thể khôi phục.`;
+    
+    if (!confirm(confirmMessage)) {
+        return;
+    }
+    
+    try {
+        // Add loading to delete button
+        const deleteBtn = document.getElementById('deleteStaffBtn');
+        const originalText = deleteBtn.innerHTML;
+        deleteBtn.innerHTML = '<div class="inline-loading"></div> Đang xóa...';
+        deleteBtn.disabled = true;
+        
+        // Call delete function
+        await scheduleManager.deleteStaff(staffId, staffName);
+        
+        // Close modal on success
+        closeEditStaffModal();
+        
+        // Restore button (though modal will be closed)
+        deleteBtn.innerHTML = originalText;
+        deleteBtn.disabled = false;
+        
+    } catch (error) {
+        // Restore button on error
+        const deleteBtn = document.getElementById('deleteStaffBtn');
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Xóa nhân viên';
+        deleteBtn.disabled = false;
+        
+        console.error('Error in handleDeleteStaff:', error);
+    }
 }
 
 async function handleEditStaffSubmit(event) {

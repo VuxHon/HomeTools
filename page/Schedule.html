@@ -561,9 +561,14 @@
 
         .modal-actions {
             display: flex;
-            gap: 10px;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 30px;
+        }
+
+        .modal-actions-right {
+            display: flex;
+            gap: 10px;
         }
 
         .modal-btn {
@@ -592,6 +597,17 @@
 
         .modal-btn.secondary:hover {
             background: #545b62;
+        }
+
+        .modal-btn.danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn.danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
         }
 
         /* Edit button in staff item */
@@ -795,12 +811,17 @@
                     </select>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="modal-btn secondary" onclick="closeEditStaffModal()">
-                        <i class="fas fa-times"></i> Hủy
+                    <button type="button" class="modal-btn danger" id="deleteStaffBtn" onclick="handleDeleteStaff()">
+                        <i class="fas fa-trash"></i> Xóa nhân viên
                     </button>
-                    <button type="submit" class="modal-btn primary" id="saveStaffBtn">
-                        <i class="fas fa-save"></i> Lưu thay đổi
-                    </button>
+                    <div class="modal-actions-right">
+                        <button type="button" class="modal-btn secondary" onclick="closeEditStaffModal()">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                        <button type="submit" class="modal-btn primary" id="saveStaffBtn">
+                            <i class="fas fa-save"></i> Lưu thay đổi
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
