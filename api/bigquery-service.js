@@ -162,6 +162,32 @@ class ScheduleService {
     }
   }
 
+  // Update staff information
+  async updateStaff(staffId, name, status) {
+    try {
+      const query = `
+        UPDATE \`tools-451916.part_time_schedule.staff\`
+        SET name = @name, status = @status
+        WHERE id = @id
+      `;
+      
+      const options = {
+        query: query,
+        params: {
+          id: staffId,
+          name: name,
+          status: status
+        }
+      };
+      
+      await bigquery.query(options);
+      return true;
+    } catch (error) {
+      console.error('Error updating staff:', error);
+      throw error;
+    }
+  }
+
   // Add new staff
   async addStaff(name, status = 'Đang làm') {
     try {
@@ -184,6 +210,53 @@ class ScheduleService {
       return staffId;
     } catch (error) {
       console.error('Error adding staff:', error);
+      throw error;
+    }
+  }
+
+  // Delete staff and all their schedules
+  async deleteStaff(staffId) {
+    try {
+      console.log(`Deleting staff ${staffId} and all their schedules...`);
+      
+      // First, delete all schedules for this staff member
+      const deleteSchedulesQuery = `
+        DELETE FROM \`tools-451916.part_time_schedule.schedule\`
+        WHERE staff_id = @staffId
+      `;
+      
+      const scheduleOptions = {
+        query: deleteSchedulesQuery,
+        params: {
+          staffId: staffId
+        }
+      };
+      
+      const [scheduleResult] = await bigquery.query(scheduleOptions);
+      console.log(`Deleted ${scheduleResult.totalBytesProcessed ? 'some' : 'no'} schedules for staff ${staffId}`);
+      
+      // Then, delete the staff member
+      const deleteStaffQuery = `
+        DELETE FROM \`tools-451916.part_time_schedule.staff\`
+        WHERE id = @staffId
+      `;
+      
+      const staffOptions = {
+        query: deleteStaffQuery,
+        params: {
+          staffId: staffId
+        }
+      };
+      
+      const [staffResult] = await bigquery.query(staffOptions);
+      console.log(`Staff ${staffId} deleted successfully`);
+      
+      return {
+        success: true,
+        message: 'Staff and all their schedules deleted successfully'
+      };
+    } catch (error) {
+      console.error('Error deleting staff:', error);
       throw error;
     }
   }
