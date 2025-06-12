@@ -265,6 +265,53 @@
             margin-bottom: 15px;
         }
 
+        .format-guide {
+            background: #f8f9ff;
+            border: 1px solid #e3e8ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .format-guide h5 {
+            color: #7c4dff;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .format-example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 3px solid #7c4dff;
+        }
+
+        .format-examples {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .format-guide code {
+            background: #e8f0fe;
+            color: #1565c0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .week-info {
+            background: linear-gradient(135deg, #4c63d2 0%, #7c4dff 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
         .ai-btn {
             background: linear-gradient(135deg, #7c4dff 0%, #9c27b0 100%);
         }
@@ -749,13 +796,18 @@
                 </div>
 
                 <div class="ai-schedule-form">
-                    <h4><i class="fas fa-magic"></i> Thêm Lịch Bằng AI</h4>
+                    <div class="format-guide">
+                        <div class="week-info" id="currentWeekInfo">
+                            <strong>Tuần đăng ký lịch:</strong> 
+                            <span id="weekRange"></span>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="chatInput">Paste tin nhắn lịch làm việc:</label>
-                        <textarea id="chatInput" placeholder="VD: [07/06/2025 22:13:13] Trâm Kha: Tuần sau: T2,3,4: ca chiều&#10;[07/06/2025 22:14:02] Đình: tuần sau (9/6-15/6) T3,4,5,6,7: ca chiều" rows="4"></textarea>
+                        <label for="chatInput">Gửi tin nhắn lịch làm việc:</label>
+                        <textarea id="chatInput" placeholder="Nguyễn Văn A - T2 sáng, T4 chiều, T7 tối" rows="4"></textarea>
                     </div>
                     <button class="btn ai-btn" onclick="parseScheduleWithAI()">
-                        <i class="fas fa-robot"></i> Phân Tích Bằng AI
+                        <i class="fas fa-robot"></i> Gửi tin nhắn
                     </button>
                 </div>
 

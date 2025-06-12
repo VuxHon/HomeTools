@@ -136,8 +136,14 @@ class ScheduleManager {
         const weekEnd = new Date(this.currentWeekStart);
         weekEnd.setDate(weekEnd.getDate() + 6);
         
-        document.getElementById('currentWeek').textContent = 
-            `${this.formatDisplayDate(this.currentWeekStart)} - ${this.formatDisplayDate(weekEnd)}`;
+        const weekDisplay = `${this.formatDisplayDate(this.currentWeekStart)} - ${this.formatDisplayDate(weekEnd)}`;
+        document.getElementById('currentWeek').textContent = weekDisplay;
+        
+        // Update AI form week info
+        const weekRangeElement = document.getElementById('weekRange');
+        if (weekRangeElement) {
+            weekRangeElement.textContent = weekDisplay;
+        }
     }
 
     // Render schedule table
@@ -755,7 +761,7 @@ async function parseScheduleWithAI() {
         
         scheduleManager.showLoading('AI đang phân tích tin nhắn lịch làm việc...');
         
-        // Use current week displayed on the schedule table
+        // Get weekStartDate from current week displayed on the schedule table
         const weekStartDate = scheduleManager.formatDate(scheduleManager.currentWeekStart);
         
         // Call Gemini AI to parse the messages

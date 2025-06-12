@@ -52,14 +52,26 @@ ${weekDaysText}
 TIN NHẮN LỊCH LÀM VIỆC:
 ${chatMessages}
 
-YÊU CẦU:
-1. Phân tích tin nhắn để tìm ra lịch làm việc của từng nhân viên
+ĐỊNH DẠNG TIN NHẮN CHUẨN (nhân viên nên gửi theo):
+- Tên nhân viên
+- Ngày + ca làm việc trong tuần
+Ví dụ: "Nguyễn Văn A - T2 sáng, T4 chiều, T7 tối"
+
+YÊU CẦU PHÂN TÍCH:
+1. Phân tích tin nhắn để tìm ra lịch làm việc của từng nhân viên trong TUẦN HIỆN TẠI
 2. Mapping tên trong tin nhắn với danh sách nhân viên (có thể có sai lệch chính tả)
-3. Chuyển đổi ký hiệu ngày (T2=Thứ 2, T3=Thứ 3, ..., CN=Chủ nhật)
+3. Chuyển đổi ký hiệu ngày (T2=Thứ 2, T3=Thứ 3, T4=Thứ 4, T5=Thứ 5, T6=Thứ 6, T7=Thứ 7, CN=Chủ nhật)
 4. Chuyển đổi ca làm việc:
-   - "ca sáng" hoặc "sáng" → "Sáng"
-   - "ca chiều" hoặc "chiều" → "Chiều"  
-   - "ca tối" hoặc "tối" → "Tối"
+   - "ca sáng", "sáng", "s" → "Sáng"
+   - "ca chiều", "chiều", "c" → "Chiều"  
+   - "ca tối", "tối", "t" → "Tối"
+5. Chỉ lấy lịch làm việc trong tuần hiện tại (${weekStartDate} đến ${this.addDays(weekStartDate, 6)})
+6. Nếu tin nhắn không đúng format, hãy cố gắng hiểu và phân tích tốt nhất có thể
+
+GHI CHÚ QUAN TRỌNG:
+- Tuần làm việc hiện tại bắt đầu từ ${weekStartDate}
+- Chỉ tạo lịch cho các ngày trong tuần này
+- Nếu tin nhắn không rõ ràng, hãy báo cáo trong summary
 
 OUTPUT JSON (chỉ trả về JSON, không có text khác):
 {
@@ -71,7 +83,7 @@ OUTPUT JSON (chỉ trả về JSON, không có text khác):
       "shift": "Sáng|Chiều|Tối"
     }
   ],
-  "summary": "Tóm tắt ngắn gọn những gì đã phân tích"
+  "summary": "Tóm tắt ngắn gọn những gì đã phân tích cho tuần ${weekStartDate}"
 }
 
 Ví dụ output:
@@ -80,11 +92,11 @@ Ví dụ output:
     {
       "staff_id": "abc123",
       "staff_name": "Trâm Kha",
-      "work_date": "2025-06-09", 
+      "work_date": "2025-01-06", 
       "shift": "Chiều"
     }
   ],
-  "summary": "Đã phân tích được lịch làm của 2 nhân viên trong tuần"
+  "summary": "Đã phân tích được lịch làm của 2 nhân viên cho tuần 06/01/2025"
 }`;
     }
 
