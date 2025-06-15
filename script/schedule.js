@@ -273,6 +273,13 @@ class ScheduleManager {
                     return scheduleDate === dateStr && s.shift === shift;
                 });
 
+                // Sort assignments by staff name alphabetically
+                assignments.sort((a, b) => {
+                    const nameA = a.staff_name || '';
+                    const nameB = b.staff_name || '';
+                    return nameA.localeCompare(nameB, 'vi', { sensitivity: 'base' });
+                });
+
                 assignments.forEach(assignment => {
                     const staffDiv = this.createStaffAssignment(assignment);
                     cell.appendChild(staffDiv);
