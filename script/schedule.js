@@ -124,6 +124,46 @@ class ScheduleManager {
         console.log('🔄 [Undo] Cleared undo stack');
     }
 
+    // Generate consistent color for each staff member
+    getStaffColor(staffId, staffName) {
+        // Predefined color palette - professional and accessible
+        const colorPalette = [
+            { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', text: '#ffffff' }, // Purple-Blue
+            { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', text: '#ffffff' }, // Pink-Red
+            { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', text: '#ffffff' }, // Blue-Cyan
+            { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', text: '#ffffff' }, // Green-Teal
+            { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', text: '#ffffff' }, // Pink-Yellow
+            { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', text: '#333333' }, // Light Teal-Pink
+            { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', text: '#333333' }, // Light Pink
+            { bg: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', text: '#333333' }, // Light Blue
+            { bg: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)', text: '#333333' }, // Purple-Yellow
+            { bg: 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)', text: '#ffffff' }, // Cyan-Blue
+            { bg: 'linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%)', text: '#ffffff' }, // Orange-Teal
+            { bg: 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)', text: '#333333' }, // Rose-Pink
+            { bg: 'linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)', text: '#333333' }, // Green-Yellow
+            { bg: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', text: '#ffffff' }, // Yellow-Orange
+            { bg: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)', text: '#ffffff' }, // Red-Blue
+            { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', text: '#333333' }, // Cream-Peach
+            { bg: 'linear-gradient(135deg, #a8caba 0%, #5d4e75 100%)', text: '#ffffff' }, // Green-Purple
+            { bg: 'linear-gradient(135deg, #b465da 0%, #cf6cc9 100%)', text: '#ffffff' }, // Purple-Magenta
+            { bg: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)', text: '#ffffff' }, // Light-Dark Blue
+            { bg: 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)', text: '#ffffff' }  // Light-Dark Pink
+        ];
+
+        // Create a hash from staffId to ensure consistency
+        let hash = 0;
+        const str = staffId || staffName || 'default';
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        
+        // Use absolute value and modulo to get consistent index
+        const colorIndex = Math.abs(hash) % colorPalette.length;
+        return colorPalette[colorIndex];
+    }
+
     // Date utilities
     getMonday(date) {
         const d = new Date(date);
@@ -302,10 +342,20 @@ class ScheduleManager {
         div.dataset.scheduleId = assignment.id;
         div.dataset.staffId = assignment.staff_id;
         
+        // Get consistent color for this staff member
+        const staffColor = this.getStaffColor(assignment.staff_id, assignment.staff_name);
+        
+        // Apply staff-specific colors
+        div.style.background = staffColor.bg;
+        div.style.color = staffColor.text;
+        
         // Add pending indicator for temporary assignments
         const isPending = assignment.isPending || assignment.id.startsWith('temp_');
         if (isPending) {
             div.classList.add('pending-change');
+            // For pending items, add a subtle border to indicate unsaved status
+            div.style.border = '2px solid #ff9500';
+            div.style.boxShadow = '0 0 0 1px rgba(255, 149, 0, 0.3)';
         }
         
         const pendingIcon = isPending ? '<i class="fas fa-clock pending-icon" title="Chưa lưu"></i>' : '';
@@ -313,7 +363,7 @@ class ScheduleManager {
         div.innerHTML = `
             <span>${assignment.staff_name}</span>
             ${pendingIcon}
-            <button class="remove-btn" onclick="scheduleManager.removeAssignment('${assignment.id}')">
+            <button class="remove-btn" onclick="scheduleManager.removeAssignment('${assignment.id}')" style="color: ${staffColor.text}; background: rgba(255,255,255,0.2);">
                 <i class="fas fa-times"></i>
             </button>
         `;
@@ -340,8 +390,14 @@ class ScheduleManager {
             
             const statusClass = staff.status === 'Đang làm' ? 'status-active' : 'status-inactive';
             
+            // Get staff color for preview
+            const staffColor = this.getStaffColor(staff.id, staff.name);
+            
             staffItem.innerHTML = `
-                <div class="staff-name">${staff.name}</div>
+                <div class="staff-info">
+                    <div class="staff-color-preview" style="background: ${staffColor.bg}; width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-right: 8px; border: 2px solid #ddd;"></div>
+                    <div class="staff-name">${staff.name}</div>
+                </div>
                 <div class="staff-item-actions">
                     <button class="edit-staff-btn" onclick="scheduleManager.openEditStaffModal('${staff.id}', '${staff.name.replace(/'/g, "\\'")}', '${staff.status}')" title="Chỉnh sửa">
                         <i class="fas fa-edit"></i>

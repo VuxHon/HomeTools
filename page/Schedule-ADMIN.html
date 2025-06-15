@@ -125,9 +125,20 @@
             cursor: grabbing;
         }
 
+        .staff-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
         .staff-name {
             font-weight: bold;
             color: #333;
+        }
+
+        .staff-color-preview {
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .staff-status {
@@ -201,8 +212,7 @@
         }
 
         .staff-assignment {
-            background: linear-gradient(135deg, #4c63d2 0%, #7c4dff 100%);
-            color: white;
+            /* Background will be set dynamically by JavaScript */
             padding: 6px 10px;
             border-radius: 15px;
             margin-bottom: 5px;
@@ -212,11 +222,15 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .staff-assignment:hover {
-            transform: scale(1.05);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            filter: brightness(1.05);
         }
 
         .remove-btn {
@@ -439,9 +453,23 @@
 
         /* Pending Changes Indicators */
         .staff-assignment.pending-change {
-            background: linear-gradient(135deg, #fd7e14 0%, #ff6b6b 100%);
-            border: 2px solid #ff9500;
+            /* Background color will be preserved from staff color */
+            /* Border and shadow are applied via JavaScript */
             animation: pulse-pending 2s infinite;
+            position: relative;
+        }
+
+        .staff-assignment.pending-change::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff9500, #fd7e14);
+            border-radius: 17px;
+            z-index: -1;
+            opacity: 0.8;
         }
 
         .pending-icon {
