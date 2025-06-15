@@ -126,28 +126,28 @@ class ScheduleManager {
 
     // Generate consistent color for each staff member
     getStaffColor(staffId, staffName) {
-        // Predefined color palette - professional and accessible
+        // Simple RGB color palette - clear and professional
         const colorPalette = [
-            { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', text: '#ffffff' }, // Purple-Blue
-            { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', text: '#ffffff' }, // Pink-Red
-            { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', text: '#ffffff' }, // Blue-Cyan
-            { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', text: '#ffffff' }, // Green-Teal
-            { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', text: '#ffffff' }, // Pink-Yellow
-            { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', text: '#333333' }, // Light Teal-Pink
-            { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', text: '#333333' }, // Light Pink
-            { bg: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', text: '#333333' }, // Light Blue
-            { bg: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)', text: '#333333' }, // Purple-Yellow
-            { bg: 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)', text: '#ffffff' }, // Cyan-Blue
-            { bg: 'linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%)', text: '#ffffff' }, // Orange-Teal
-            { bg: 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)', text: '#333333' }, // Rose-Pink
-            { bg: 'linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)', text: '#333333' }, // Green-Yellow
-            { bg: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', text: '#ffffff' }, // Yellow-Orange
-            { bg: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)', text: '#ffffff' }, // Red-Blue
-            { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', text: '#333333' }, // Cream-Peach
-            { bg: 'linear-gradient(135deg, #a8caba 0%, #5d4e75 100%)', text: '#ffffff' }, // Green-Purple
-            { bg: 'linear-gradient(135deg, #b465da 0%, #cf6cc9 100%)', text: '#ffffff' }, // Purple-Magenta
-            { bg: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)', text: '#ffffff' }, // Light-Dark Blue
-            { bg: 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)', text: '#ffffff' }  // Light-Dark Pink
+            { bg: '#3498db', text: '#ffffff' }, // Blue
+            { bg: '#e74c3c', text: '#ffffff' }, // Red
+            { bg: '#2ecc71', text: '#ffffff' }, // Green
+            { bg: '#f39c12', text: '#ffffff' }, // Orange
+            { bg: '#9b59b6', text: '#ffffff' }, // Purple
+            { bg: '#1abc9c', text: '#ffffff' }, // Turquoise
+            { bg: '#e67e22', text: '#ffffff' }, // Carrot
+            { bg: '#34495e', text: '#ffffff' }, // Wet Asphalt
+            { bg: '#f1c40f', text: '#333333' }, // Yellow
+            { bg: '#e91e63', text: '#ffffff' }, // Pink
+            { bg: '#795548', text: '#ffffff' }, // Brown
+            { bg: '#607d8b', text: '#ffffff' }, // Blue Grey
+            { bg: '#ff5722', text: '#ffffff' }, // Deep Orange
+            { bg: '#009688', text: '#ffffff' }, // Teal
+            { bg: '#673ab7', text: '#ffffff' }, // Deep Purple
+            { bg: '#ff9800', text: '#ffffff' }, // Amber
+            { bg: '#4caf50', text: '#ffffff' }, // Light Green
+            { bg: '#2196f3', text: '#ffffff' }, // Light Blue
+            { bg: '#ff6b6b', text: '#ffffff' }, // Light Red
+            { bg: '#6c5ce7', text: '#ffffff' }  // Purple Blue
         ];
 
         // Create a hash from staffId to ensure consistency
