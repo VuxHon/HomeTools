@@ -16,6 +16,10 @@ class ScheduleManager {
         this.originalScheduleData = []; // Backup for cancel operation
         this.hasUnsavedChanges = false;
         
+        // Undo system
+        this.undoStack = [];
+        this.maxUndoSteps = 20; // Maximum number of undo steps
+        
         this.init();
     }
 
@@ -34,6 +38,90 @@ class ScheduleManager {
         // Save/Cancel buttons
         document.getElementById('saveChanges')?.addEventListener('click', () => this.saveAllChanges());
         document.getElementById('cancelChanges')?.addEventListener('click', () => this.cancelAllChanges());
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => this.handleKeyboardShortcuts(e));
+    }
+
+    // Handle keyboard shortcuts
+    handleKeyboardShortcuts(e) {
+        // Ctrl+Z for undo
+        if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+            e.preventDefault();
+            this.undo();
+        }
+        // Ctrl+Shift+Z or Ctrl+Y for redo (future enhancement)
+        else if ((e.ctrlKey && e.key === 'z' && e.shiftKey) || (e.ctrlKey && e.key === 'y')) {
+            e.preventDefault();
+            // this.redo(); // Not implemented yet
+            this.showError('Chức năng Redo chưa được hỗ trợ');
+        }
+    }
+
+    // Save current state to undo stack
+    saveStateToUndo(actionType, actionData = null) {
+        const state = {
+            timestamp: Date.now(),
+            actionType: actionType,
+            actionData: actionData,
+            scheduleData: JSON.parse(JSON.stringify(this.scheduleData)),
+            pendingChanges: JSON.parse(JSON.stringify(this.pendingChanges)),
+            hasUnsavedChanges: this.hasUnsavedChanges
+        };
+
+        this.undoStack.push(state);
+
+        // Limit undo stack size
+        if (this.undoStack.length > this.maxUndoSteps) {
+            this.undoStack.shift(); // Remove oldest state
+        }
+
+        console.log(`🔄 [Undo] Saved state: ${actionType}, Stack size: ${this.undoStack.length}`);
+    }
+
+    // Undo last action
+    undo() {
+        if (this.undoStack.length === 0) {
+            this.showError('Không có thao tác nào để hoàn tác');
+            return;
+        }
+
+        try {
+            const previousState = this.undoStack.pop();
+            
+            // Restore previous state
+            this.scheduleData = JSON.parse(JSON.stringify(previousState.scheduleData));
+            this.pendingChanges = JSON.parse(JSON.stringify(previousState.pendingChanges));
+            this.hasUnsavedChanges = previousState.hasUnsavedChanges;
+
+            // Re-render UI
+            this.renderScheduleTable();
+            this.updateSaveButtonState();
+
+            this.showSuccess(`✅ Đã hoàn tác: ${this.getActionTypeDisplayName(previousState.actionType)}`);
+            console.log(`🔄 [Undo] Restored state: ${previousState.actionType}, Stack size: ${this.undoStack.length}`);
+        } catch (error) {
+            console.error('❌ [Undo] Error during undo operation:', error);
+            this.showError('Không thể hoàn tác thao tác. Vui lòng thử lại.');
+        }
+    }
+
+    // Get display name for action type
+    getActionTypeDisplayName(actionType) {
+        const displayNames = {
+            'ADD_ASSIGNMENT': 'Thêm lịch làm việc',
+            'REMOVE_ASSIGNMENT': 'Xóa lịch làm việc',
+            'DRAG_DROP': 'Kéo thả nhân viên',
+            'AI_SCHEDULE': 'Xử lý lịch AI',
+            'BULK_OPERATION': 'Thao tác hàng loạt'
+        };
+        return displayNames[actionType] || actionType;
+    }
+
+    // Clear undo stack (called when data is saved or refreshed)
+    clearUndoStack() {
+        this.undoStack = [];
+        console.log('🔄 [Undo] Cleared undo stack');
     }
 
     // Date utilities
@@ -84,6 +172,9 @@ class ScheduleManager {
             // Backup original data for cancel operation
             this.originalScheduleData = JSON.parse(JSON.stringify(this.scheduleData));
             this.resetPendingChanges();
+            
+            // Clear undo stack since we have fresh data
+            this.clearUndoStack();
             
             // Render the UI components
             this.renderStaffList();
@@ -318,6 +409,14 @@ class ScheduleManager {
                 return;
             }
             
+            // Save state for undo before making changes
+            this.saveStateToUndo('DRAG_DROP', {
+                staffId: staffId,
+                staffName: staffName,
+                workDate: workDate,
+                shift: shift
+            });
+            
             // Generate temporary ID for UI
             const tempId = 'temp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
@@ -355,6 +454,15 @@ class ScheduleManager {
     // Remove assignment
     async removeAssignment(scheduleId) {
         try {
+            // Find the assignment being removed for undo data
+            const assignmentToRemove = this.scheduleData.find(s => s.id === scheduleId);
+            
+            // Save state for undo before making changes
+            this.saveStateToUndo('REMOVE_ASSIGNMENT', {
+                scheduleId: scheduleId,
+                assignment: assignmentToRemove
+            });
+            
             // Check if this is a pending addition (temporary)
             if (scheduleId.startsWith('temp_')) {
                 // Remove from pending additions
@@ -608,6 +716,9 @@ class ScheduleManager {
             // Reset pending changes
             this.resetPendingChanges();
             
+            // Clear undo stack since we've reset to original state
+            this.clearUndoStack();
+            
             // Re-render table
             this.renderScheduleTable();
 
@@ -775,6 +886,12 @@ async function parseScheduleWithAI() {
             scheduleManager.showError('AI không tìm thấy lịch làm việc nào trong tin nhắn');
             return;
         }
+        
+        // Save state for undo before making changes
+        scheduleManager.saveStateToUndo('AI_SCHEDULE', {
+            inputText: chatInput,
+            aiResult: aiResult
+        });
         
         // Add schedules to pending changes
         let addedCount = 0;
