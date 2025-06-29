@@ -654,5 +654,31 @@
 
     <script src="../script/bigquery-client.js"></script>
     <script src="../script/register-shift.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const staffDropdown = document.getElementById('staffDropdown');
+            const scheduleBody = document.getElementById('scheduleBody');
+
+            function filterScheduleByStaff() {
+                const selectedStaffId = staffDropdown.value;
+                const allAssignments = scheduleBody.querySelectorAll('.staff-assignment');
+
+                allAssignments.forEach(assignment => {
+                    const assignmentStaffId = assignment.dataset.staffId; 
+                    
+                    if (!selectedStaffId || selectedStaffId === "" || assignmentStaffId === selectedStaffId) {
+                        assignment.style.display = 'flex';
+                    } else {
+                        assignment.style.display = 'none';
+                    }
+                });
+            }
+
+            staffDropdown.addEventListener('change', filterScheduleByStaff);
+
+            const observer = new MutationObserver(filterScheduleByStaff);
+            observer.observe(scheduleBody, { childList: true, subtree: true });
+        });
+    </script>
 </body>
 </html> 

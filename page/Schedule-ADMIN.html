@@ -1142,6 +1142,12 @@
             <div class="staff-panel">
                 <div class="staff-section">
                     <h3><i class="fas fa-users"></i> Danh Sách Nhân Viên</h3>
+                    <div class="form-group">
+                        <label for="staffFilter">Lọc theo nhân viên:</label>
+                        <select id="staffFilter">
+                            <option value="all">Tất cả nhân viên</option>
+                        </select>
+                    </div>
                     <div class="staff-list" id="staffList">
                         <div class="loading">Đang tải...</div>
                     </div>
@@ -1252,5 +1258,57 @@
     <script src="../script/bigquery-client.js"></script>
     <script src="../script/gemini-ai.js"></script>
     <script src="../script/schedule.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const staffListEl = document.getElementById('staffList');
+            const staffFilterEl = document.getElementById('staffFilter');
+
+            const observer = new MutationObserver(() => {
+                populateStaffFilter();
+            });
+
+            observer.observe(staffListEl, { childList: true, subtree: true });
+
+            function populateStaffFilter() {
+                const selectedValue = staffFilterEl.value;
+                staffFilterEl.innerHTML = '<option value="all">Tất cả nhân viên</option>';
+                const staffItems = staffListEl.querySelectorAll('.staff-item');
+                const existingIds = new Set();
+                staffItems.forEach(item => {
+                    const name = item.querySelector('.staff-name').textContent;
+                    const id = item.dataset.staffId; 
+                    if (id && !existingIds.has(id)) {
+                        const option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = name;
+                        staffFilterEl.appendChild(option);
+                        existingIds.add(id);
+                    }
+                });
+                staffFilterEl.value = selectedValue;
+            }
+
+            staffFilterEl.addEventListener('change', () => {
+                filterSchedule(staffFilterEl.value);
+            });
+
+            function filterSchedule(staffId) {
+                const allAssignments = document.querySelectorAll('.staff-assignment');
+                allAssignments.forEach(assignment => {
+                    const assignmentStaffId = assignment.dataset.staffId;
+                    if (staffId === 'all' || !staffId || assignmentStaffId === staffId) {
+                        assignment.style.display = 'flex';
+                    } else {
+                        assignment.style.display = 'none';
+                    }
+                });
+            }
+
+            const scheduleBodyObserver = new MutationObserver(() => {
+                filterSchedule(staffFilterEl.value);
+            });
+            scheduleBodyObserver.observe(document.getElementById('scheduleBody'), { childList: true, subtree: true });
+        });
+    </script>
 </body>
 </html> 
