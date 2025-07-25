@@ -740,6 +740,154 @@
             color: #212529;
         }
 
+        /* Multi-Select Filter Styles */
+        .multi-select-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+        }
+
+        .selected-staff-container {
+            min-height: 40px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .selected-staff-tag {
+            background: linear-gradient(135deg, #4c63d2 0%, #7c4dff 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .selected-staff-tag:hover {
+            background: linear-gradient(135deg, #3a4fa0 0%, #6a1b9a 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .remove-staff-btn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-staff-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .staff-filter-select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .staff-filter-select:focus {
+            outline: none;
+            border-color: #4c63d2;
+            box-shadow: 0 0 0 2px rgba(76, 99, 210, 0.1);
+        }
+
+        .clear-all-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .clear-all-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .no-staff-selected {
+            color: #6c757d;
+            font-style: italic;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Animation for staff tags */
+        .selected-staff-tag {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .selected-staff-tag.removing {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+
+        .selected-count {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: normal;
+        }
+
+        .selected-count.has-selection {
+            color: #4c63d2;
+            font-weight: bold;
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.9);
+            }
+        }
+
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             body {
@@ -1040,6 +1188,43 @@
                 min-height: 60px;
             }
 
+            .multi-select-container {
+                border-radius: 6px;
+            }
+
+            .selected-staff-container {
+                min-height: 35px;
+                padding: 6px;
+                gap: 4px;
+            }
+
+            .selected-staff-tag {
+                padding: 3px 6px;
+                font-size: 0.8rem;
+                gap: 4px;
+            }
+
+            .remove-staff-btn {
+                width: 14px;
+                height: 14px;
+                font-size: 0.6rem;
+            }
+
+            .filter-controls {
+                padding: 6px;
+                gap: 6px;
+            }
+
+            .staff-filter-select {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+
+            .clear-all-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
             .modal {
                 width: 98%;
                 padding: 15px;
@@ -1143,10 +1328,20 @@
                 <div class="staff-section">
                     <h3><i class="fas fa-users"></i> Danh Sách Nhân Viên</h3>
                     <div class="form-group">
-                        <label for="staffFilter">Lọc theo nhân viên:</label>
-                        <select id="staffFilter">
-                            <option value="all">Tất cả nhân viên</option>
-                        </select>
+                        <label for="staffFilter">Lọc theo nhân viên: <span id="selectedCount" class="selected-count"></span></label>
+                        <div class="multi-select-container">
+                            <div class="selected-staff-container" id="selectedStaffContainer">
+                                <!-- Selected staff tags will be displayed here -->
+                            </div>
+                            <div class="filter-controls">
+                                <select id="staffFilter" class="staff-filter-select">
+                                    <option value="">Chọn nhân viên...</option>
+                                </select>
+                                <button type="button" class="clear-all-btn" id="clearAllFilter" style="display: none;">
+                                    <i class="fas fa-times"></i> Xóa tất cả
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="staff-list" id="staffList">
                         <div class="loading">Đang tải...</div>
@@ -1262,6 +1457,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const staffListEl = document.getElementById('staffList');
             const staffFilterEl = document.getElementById('staffFilter');
+            const selectedStaffContainer = document.getElementById('selectedStaffContainer');
+            const clearAllBtn = document.getElementById('clearAllFilter');
+            const selectedCountEl = document.getElementById('selectedCount');
+            
+            // Track selected staff IDs
+            let selectedStaffIds = new Set();
 
             const observer = new MutationObserver(() => {
                 populateStaffFilter();
@@ -1270,14 +1471,17 @@
             observer.observe(staffListEl, { childList: true, subtree: true });
 
             function populateStaffFilter() {
-                const selectedValue = staffFilterEl.value;
-                staffFilterEl.innerHTML = '<option value="all">Tất cả nhân viên</option>';
+                // Clear existing options except the placeholder
+                staffFilterEl.innerHTML = '<option value="">Chọn nhân viên...</option>';
+                
                 const staffItems = staffListEl.querySelectorAll('.staff-item');
                 const existingIds = new Set();
+                
                 staffItems.forEach(item => {
                     const name = item.querySelector('.staff-name').textContent;
                     const id = item.dataset.staffId; 
-                    if (id && !existingIds.has(id)) {
+                    
+                    if (id && !existingIds.has(id) && !selectedStaffIds.has(id)) {
                         const option = document.createElement('option');
                         option.value = id;
                         option.textContent = name;
@@ -1285,29 +1489,127 @@
                         existingIds.add(id);
                     }
                 });
-                staffFilterEl.value = selectedValue;
+                
+                // Reset select to placeholder
+                staffFilterEl.value = '';
             }
 
+            function renderSelectedStaffTags() {
+                selectedStaffContainer.innerHTML = '';
+                
+                // Update selected count
+                if (selectedStaffIds.size === 0) {
+                    selectedCountEl.textContent = '';
+                    selectedCountEl.classList.remove('has-selection');
+                } else {
+                    selectedCountEl.textContent = `(${selectedStaffIds.size} đã chọn)`;
+                    selectedCountEl.classList.add('has-selection');
+                }
+                
+                if (selectedStaffIds.size === 0) {
+                    selectedStaffContainer.innerHTML = '<div class="no-staff-selected">Chưa chọn nhân viên nào</div>';
+                    clearAllBtn.style.display = 'none';
+                    return;
+                }
+                
+                clearAllBtn.style.display = 'block';
+                
+                selectedStaffIds.forEach(staffId => {
+                    const staffItem = staffListEl.querySelector(`[data-staff-id="${staffId}"]`);
+                    if (staffItem) {
+                        const staffName = staffItem.querySelector('.staff-name').textContent;
+                        const tag = document.createElement('div');
+                        tag.className = 'selected-staff-tag';
+                        tag.innerHTML = `
+                            <span>${staffName}</span>
+                            <button class="remove-staff-btn" onclick="removeSelectedStaff('${staffId}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        selectedStaffContainer.appendChild(tag);
+                    }
+                });
+            }
+
+            function addSelectedStaff(staffId) {
+                if (staffId && !selectedStaffIds.has(staffId)) {
+                    selectedStaffIds.add(staffId);
+                    renderSelectedStaffTags();
+                    populateStaffFilter(); // Refresh dropdown options
+                    filterSchedule();
+                }
+            }
+
+            function removeSelectedStaff(staffId) {
+                // Find the tag element and add removing animation
+                const tagElement = selectedStaffContainer.querySelector(`[onclick="removeSelectedStaff('${staffId}')"]`).parentElement;
+                tagElement.classList.add('removing');
+                
+                // Wait for animation to complete before removing
+                setTimeout(() => {
+                    selectedStaffIds.delete(staffId);
+                    renderSelectedStaffTags();
+                    populateStaffFilter(); // Refresh dropdown options
+                    filterSchedule();
+                }, 300);
+            }
+
+            function clearAllSelectedStaff() {
+                selectedStaffIds.clear();
+                renderSelectedStaffTags();
+                populateStaffFilter();
+                filterSchedule();
+            }
+
+            // Make functions globally accessible
+            window.addSelectedStaff = addSelectedStaff;
+            window.removeSelectedStaff = removeSelectedStaff;
+            window.clearAllSelectedStaff = clearAllSelectedStaff;
+
             staffFilterEl.addEventListener('change', () => {
-                filterSchedule(staffFilterEl.value);
+                const selectedValue = staffFilterEl.value;
+                if (selectedValue) {
+                    addSelectedStaff(selectedValue);
+                }
             });
 
-            function filterSchedule(staffId) {
+            clearAllBtn.addEventListener('click', clearAllSelectedStaff);
+
+            function filterSchedule() {
                 const allAssignments = document.querySelectorAll('.staff-assignment');
+                
                 allAssignments.forEach(assignment => {
                     const assignmentStaffId = assignment.dataset.staffId;
-                    if (staffId === 'all' || !staffId || assignmentStaffId === staffId) {
+                    
+                    // If no staff selected, show all
+                    if (selectedStaffIds.size === 0) {
                         assignment.style.display = 'flex';
                     } else {
-                        assignment.style.display = 'none';
+                        // Show only selected staff assignments
+                        if (selectedStaffIds.has(assignmentStaffId)) {
+                            assignment.style.display = 'flex';
+                        } else {
+                            assignment.style.display = 'none';
+                        }
                     }
                 });
             }
 
             const scheduleBodyObserver = new MutationObserver(() => {
-                filterSchedule(staffFilterEl.value);
+                filterSchedule();
             });
             scheduleBodyObserver.observe(document.getElementById('scheduleBody'), { childList: true, subtree: true });
+
+            // Initialize the display
+            renderSelectedStaffTags();
+
+            // Add keyboard shortcut for clearing all filters
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+                    e.preventDefault();
+                    clearAllSelectedStaff();
+                }
+            });
         });
     </script>
 </body>

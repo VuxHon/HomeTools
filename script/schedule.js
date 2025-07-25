@@ -20,6 +20,10 @@ class ScheduleManager {
         this.undoStack = [];
         this.maxUndoSteps = 20; // Maximum number of undo steps
         
+        // Color tracking to prevent duplicates
+        this.usedColors = new Map(); // staffId -> colorIndex
+        this.colorUsageCount = new Map(); // colorIndex -> count
+        
         this.init();
     }
 
@@ -124,9 +128,31 @@ class ScheduleManager {
         console.log('🔄 [Undo] Cleared undo stack');
     }
 
+    // Reset color tracking (called when loading fresh data)
+    resetColorTracking() {
+        this.usedColors.clear();
+        this.colorUsageCount.clear();
+        console.log('🎨 [Color] Reset color tracking');
+    }
+
+    // Debug function to show color distribution
+    debugColorDistribution() {
+        console.log('🎨 [Color] Current color distribution:');
+        console.log('Used colors:', Array.from(this.usedColors.entries()));
+        console.log('Color usage count:', Array.from(this.colorUsageCount.entries()));
+        
+        // Show which staff members have which colors
+        this.staffData.forEach(staff => {
+            const colorIndex = this.usedColors.get(staff.id);
+            if (colorIndex !== undefined) {
+                console.log(`  ${staff.name} (${staff.id}) -> Color ${colorIndex}`);
+            }
+        });
+    }
+
     // Generate consistent color for each staff member
     getStaffColor(staffId, staffName) {
-        // Simple RGB color palette - clear and professional
+        // Extended color palette with 21 distinct colors for better distribution
         const colorPalette = [
             { bg: '#3498db', text: '#ffffff' }, // Blue
             { bg: '#e74c3c', text: '#ffffff' }, // Red
@@ -147,21 +173,60 @@ class ScheduleManager {
             { bg: '#4caf50', text: '#ffffff' }, // Light Green
             { bg: '#2196f3', text: '#ffffff' }, // Light Blue
             { bg: '#ff6b6b', text: '#ffffff' }, // Light Red
-            { bg: '#6c5ce7', text: '#ffffff' }  // Purple Blue
+            { bg: '#6c5ce7', text: '#ffffff' }, // Purple Blue
+            { bg: '#97FFFF', text: '#333333' }  // Cyan
         ];
 
-        // Create a hash from staffId to ensure consistency
-        let hash = 0;
-        const str = staffId || staffName || 'default';
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32-bit integer
+        // Check if this staff already has a color assigned
+        if (this.usedColors.has(staffId)) {
+            const existingColorIndex = this.usedColors.get(staffId);
+            return colorPalette[existingColorIndex];
         }
+
+        // Find the least used color to avoid conflicts
+        let bestColorIndex = 0;
+        let minUsage = Infinity;
+
+        for (let i = 0; i < colorPalette.length; i++) {
+            const usageCount = this.colorUsageCount.get(i) || 0;
+            if (usageCount < minUsage) {
+                minUsage = usageCount;
+                bestColorIndex = i;
+            }
+        }
+
+        // If all colors are used equally, use hash-based selection with better distribution
+        if (minUsage > 0) {
+            let hash = 0;
+            const str = staffId || staffName || 'default';
+            
+            // Enhanced hash function with better distribution
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            
+            // Add additional entropy using string length and first/last characters
+            const firstChar = str.charCodeAt(0) || 0;
+            const lastChar = str.charCodeAt(str.length - 1) || 0;
+            const lengthFactor = str.length * 31;
+            
+            hash = hash + firstChar + lastChar + lengthFactor;
+            hash = Math.abs(hash);
+            
+            // Use a more sophisticated modulo to avoid clustering
+            bestColorIndex = (hash * 17 + hash % 7) % colorPalette.length;
+        }
+
+        // Assign the color to this staff
+        this.usedColors.set(staffId, bestColorIndex);
+        this.colorUsageCount.set(bestColorIndex, (this.colorUsageCount.get(bestColorIndex) || 0) + 1);
+
+        // Debug logging to help identify color distribution issues
+        console.log(`🎨 [Color] Staff: ${staffName} (ID: ${staffId}) -> Color Index: ${bestColorIndex}/${colorPalette.length} -> ${colorPalette[bestColorIndex].bg} (Usage: ${this.colorUsageCount.get(bestColorIndex)})`);
         
-        // Use absolute value and modulo to get consistent index
-        const colorIndex = Math.abs(hash) % colorPalette.length;
-        return colorPalette[colorIndex];
+        return colorPalette[bestColorIndex];
     }
 
     // Date utilities
@@ -215,6 +280,9 @@ class ScheduleManager {
             
             // Clear undo stack since we have fresh data
             this.clearUndoStack();
+            
+            // Reset color tracking for fresh data
+            this.resetColorTracking();
             
             // Render the UI components
             this.renderStaffList();
@@ -409,6 +477,9 @@ class ScheduleManager {
             this.setupDragEvents(staffItem);
             staffList.appendChild(staffItem);
         });
+
+        // Debug color distribution after rendering staff list
+        this.debugColorDistribution();
     }
 
     // Drag and drop functionality
