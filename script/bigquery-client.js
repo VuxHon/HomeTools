@@ -379,7 +379,8 @@ class BigQueryClient {
                 s.work_date,
                 s.shift,
                 st.name as staff_name,
-                st.status as staff_status
+                st.status as staff_status,
+                st.role as staff_role
             FROM \`${this.projectId}.${this.datasetId}.schedule\` s
             LEFT JOIN \`${this.projectId}.${this.datasetId}.staff\` st ON s.staff_id = st.id
             WHERE s.work_date BETWEEN @startDate AND @endDate
@@ -391,7 +392,7 @@ class BigQueryClient {
 
     async getActiveStaff() {
         const query = `
-            SELECT id, name, status
+            SELECT id, name, status, role
             FROM \`${this.projectId}.${this.datasetId}.staff\`
             ORDER BY name
         `;
@@ -496,33 +497,35 @@ class BigQueryClient {
         return await this.query(query, { id: staffId, status: status });
     }
 
-    async updateStaff(staffId, name, status) {
+    async updateStaff(staffId, name, status, role = null) {
         const query = `
             UPDATE \`${this.projectId}.${this.datasetId}.staff\`
-            SET name = @name, status = @status
+            SET name = @name, status = @status, role = @role
             WHERE id = @id
         `;
         
         return await this.query(query, { 
             id: staffId, 
             name: name, 
-            status: status 
+            status: status,
+            role: role
         });
     }
 
-    async addStaff(name, status = 'Đang làm') {
+    async addStaff(name, status = 'Đang làm', role = null) {
         const staffId = this.generateUUID();
         console.log('🆕 [BigQuery] Adding staff with UUID:', staffId);
         
         const query = `
-            INSERT INTO \`${this.projectId}.${this.datasetId}.staff\` (id, name, status)
-            VALUES (@id, @name, @status)
+            INSERT INTO \`${this.projectId}.${this.datasetId}.staff\` (id, name, status, role)
+            VALUES (@id, @name, @status, @role)
         `;
         
         await this.query(query, {
             id: staffId,
             name: name,
-            status: status
+            status: status,
+            role: role
         });
         
         return staffId;

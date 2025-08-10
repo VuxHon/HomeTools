@@ -263,7 +263,7 @@ class ScheduleManager {
             this.showSectionLoading('scheduleBody', 'Đang tải lịch làm việc...');
             
             // Load staff data
-            this.staffData = await this.bqClient.getActiveStaff();
+        this.staffData = await this.bqClient.getActiveStaff();
             
             // Load schedule data for current week
             const weekEnd = new Date(this.currentWeekStart);
@@ -272,7 +272,7 @@ class ScheduleManager {
             const startDateStr = this.formatDate(this.currentWeekStart);
             const endDateStr = this.formatDate(weekEnd);
             
-            this.scheduleData = await this.bqClient.getWeekSchedule(startDateStr, endDateStr);
+        this.scheduleData = await this.bqClient.getWeekSchedule(startDateStr, endDateStr);
             
             // Backup original data for cancel operation
             this.originalScheduleData = JSON.parse(JSON.stringify(this.scheduleData));
@@ -409,6 +409,9 @@ class ScheduleManager {
         div.className = 'staff-assignment';
         div.dataset.scheduleId = assignment.id;
         div.dataset.staffId = assignment.staff_id;
+        if (assignment.staff_role) {
+            div.dataset.staffRole = assignment.staff_role;
+        }
         
         // Get consistent color for this staff member
         const staffColor = this.getStaffColor(assignment.staff_id, assignment.staff_name);
@@ -455,16 +458,23 @@ class ScheduleManager {
             staffItem.draggable = true;
             staffItem.dataset.staffId = staff.id;
             staffItem.dataset.staffName = staff.name;
+            if (staff.role) {
+                staffItem.dataset.staffRole = staff.role;
+            }
             
             const statusClass = staff.status === 'Đang làm' ? 'status-active' : 'status-inactive';
             
             // Get staff color for preview
             const staffColor = this.getStaffColor(staff.id, staff.name);
             
+            const roleBadge = staff.role ? `<span class="staff-role-badge" title="${staff.role}">${staff.role}</span>` : '';
             staffItem.innerHTML = `
                 <div class="staff-info">
                     <div class="staff-color-preview" style="background: ${staffColor.bg}; width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-right: 8px; border: 2px solid #ddd;"></div>
-                    <div class="staff-name">${staff.name}</div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <div class="staff-name">${staff.name}</div>
+                        ${roleBadge}
+                    </div>
                 </div>
                 <div class="staff-item-actions">
                     <button class="edit-staff-btn" onclick="scheduleManager.openEditStaffModal('${staff.id}', '${staff.name.replace(/'/g, "\\'")}', '${staff.status}')" title="Chỉnh sửa">
@@ -649,6 +659,7 @@ class ScheduleManager {
         const modal = document.getElementById('editStaffModal');
         const nameInput = document.getElementById('editStaffName');
         const statusSelect = document.getElementById('editStaffStatus');
+        const roleSelect = document.getElementById('editStaffRole');
         
         // Store current staff ID and name for later use
         modal.dataset.staffId = staffId;
@@ -657,6 +668,22 @@ class ScheduleManager {
         // Populate form with current values
         nameInput.value = staffName;
         statusSelect.value = staffStatus;
+        // Populate role select from ROLE_OPTIONS on page
+        if (roleSelect) {
+            // ROLE_OPTIONS is defined on the page script
+            if (window.ROLE_OPTIONS && Array.isArray(window.ROLE_OPTIONS)) {
+                roleSelect.innerHTML = '';
+                window.ROLE_OPTIONS.filter(r => r.value !== 'all').forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r.value;
+                    opt.textContent = r.label;
+                    roleSelect.appendChild(opt);
+                });
+            }
+            // Set current role if available
+            const staff = this.staffData.find(s => s.id === staffId);
+            roleSelect.value = (staff && staff.role) ? staff.role : '';
+        }
         
         // Show modal
         modal.style.display = 'flex';
@@ -698,8 +725,10 @@ class ScheduleManager {
     async updateStaff(staffId, name, status) {
         try {
             this.showLoading(`Đang cập nhật thông tin nhân viên...`);
+            const roleSelect = document.getElementById('editStaffRole');
+            const role = roleSelect ? (roleSelect.value || null) : null;
             
-            await this.bqClient.updateStaff(staffId, name, status);
+            await this.bqClient.updateStaff(staffId, name, status, role);
             
             // Reload data to show updated information
             await this.loadData();
@@ -950,6 +979,8 @@ class ScheduleManager {
 async function addNewStaff() {
     const name = document.getElementById('staffName').value.trim();
     const status = document.getElementById('staffStatus').value;
+    const roleSelect = document.getElementById('staffRole');
+    const role = roleSelect ? (roleSelect.value || null) : null;
 
     if (!name) {
         scheduleManager.showError('Vui lòng nhập tên nhân viên');
@@ -964,9 +995,10 @@ async function addNewStaff() {
         addButton.disabled = true;
 
         scheduleManager.showLoading(`Đang thêm nhân viên ${name}...`);
-        await scheduleManager.bqClient.addStaff(name, status);
+        await scheduleManager.bqClient.addStaff(name, status, role);
 
         document.getElementById('staffName').value = '';
+        if (roleSelect) roleSelect.value = '';
         await scheduleManager.loadData();
         scheduleManager.renderStaffList();
 
