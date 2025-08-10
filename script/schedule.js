@@ -480,7 +480,7 @@ class ScheduleManager {
                     <button class="edit-staff-btn" onclick="scheduleManager.openEditStaffModal('${staff.id}', '${staff.name.replace(/'/g, "\\'")}', '${staff.status}')" title="Chỉnh sửa">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <div class="staff-status ${statusClass}" onclick="scheduleManager.toggleStaffStatus('${staff.id}')">${staff.status}</div>
+                    <div onclick="scheduleManager.toggleStaffStatus('${staff.id}')"></div>
                 </div>
             `;
 
@@ -670,10 +670,10 @@ class ScheduleManager {
         statusSelect.value = staffStatus;
         // Populate role select from ROLE_OPTIONS on page
         if (roleSelect) {
-            // ROLE_OPTIONS is defined on the page script
-            if (window.ROLE_OPTIONS && Array.isArray(window.ROLE_OPTIONS)) {
+            // ROLE_OPTIONS is defined in Schedule-ADMIN.html
+            if (typeof ROLE_OPTIONS !== 'undefined' && Array.isArray(ROLE_OPTIONS)) {
                 roleSelect.innerHTML = '';
-                window.ROLE_OPTIONS.filter(r => r.value !== 'all').forEach(r => {
+                ROLE_OPTIONS.filter(r => r.value !== 'all').forEach(r => {
                     const opt = document.createElement('option');
                     opt.value = r.value;
                     opt.textContent = r.label;

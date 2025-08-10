@@ -1482,6 +1482,16 @@
 
     <script src="../script/bigquery-client.js"></script>
     <script src="../script/gemini-ai.js"></script>
+    <script>
+        // Global role configuration - single variable (no window.)
+        const ROLE_OPTIONS = [
+            { value: 'all', label: 'Tất cả vai trò' },
+            { value: 'CSKH', label: 'Chăm sóc khách hàng' },
+            { value: 'THÊU', label: 'Thêu' },
+            { value: 'GÓI HÀNG', label: 'Gói hàng' },
+            { value: 'MKT', label: 'Marketing' },
+        ];
+    </script>
     <script src="../script/schedule.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1495,14 +1505,7 @@
             // Track selected staff IDs
             let selectedStaffIds = new Set();
             
-            // Configurable role options (can be edited in code)
-            window.ROLE_OPTIONS = window.ROLE_OPTIONS || [
-                { value: 'all', label: 'Tất cả vai trò' },
-                { value: 'CSKH', label: 'Chăm sóc khách hàng' },
-                { value: 'THÊU', label: 'Thêu' },
-                { value: 'GÓI HÀNG', label: 'Gói hàng' },
-                { value: 'MKT', label: 'Marketing' },
-            ];
+            // Use the single ROLE_OPTIONS variable defined above
 
             const observer = new MutationObserver(() => {
                 populateStaffFilter();
@@ -1541,7 +1544,7 @@
 
             function populateRoleFilter() {
                 roleFilterEl.innerHTML = '';
-                (window.ROLE_OPTIONS || []).forEach(opt => {
+                (ROLE_OPTIONS || []).forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt.value;
                     option.textContent = opt.label;
@@ -1555,7 +1558,7 @@
                 const addRoleSelect = document.getElementById('staffRole');
                 if (!addRoleSelect) return;
                 addRoleSelect.innerHTML = '<option value="">Chọn vai trò...</option>';
-                (window.ROLE_OPTIONS || []).filter(r => r.value !== 'all').forEach(opt => {
+                (ROLE_OPTIONS || []).filter(r => r.value !== 'all').forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt.value;
                     option.textContent = opt.label;
